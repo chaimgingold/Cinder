@@ -78,8 +78,6 @@
 		003832E40E9C04AD00ACB120 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 003832E30E9C04AD00ACB120 /* Stream.cpp */; };
 		0039FBA9115AE63600BA0BAD /* ImageTargetFileUiImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 0039FBA8115AE63600BA0BAD /* ImageTargetFileUiImage.h */; };
 		0039FBAA115AE63600BA0BAD /* ImageTargetFileUiImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 0039FBA8115AE63600BA0BAD /* ImageTargetFileUiImage.h */; };
-		0039FBB3115AE69B00BA0BAD /* ImageTargetFileUiImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0039FBB2115AE69B00BA0BAD /* ImageTargetFileUiImage.mm */; };
-		0039FBB4115AE69B00BA0BAD /* ImageTargetFileUiImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0039FBB2115AE69B00BA0BAD /* ImageTargetFileUiImage.mm */; };
 		0039FD22115B123B00BA0BAD /* CinderCocoaTouch.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0039FD21115B123B00BA0BAD /* CinderCocoaTouch.mm */; };
 		0039FD23115B123B00BA0BAD /* CinderCocoaTouch.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0039FD21115B123B00BA0BAD /* CinderCocoaTouch.mm */; };
 		0039FD25115B125400BA0BAD /* CinderCocoaTouch.h in Headers */ = {isa = PBXBuildFile; fileRef = 0039FD24115B125400BA0BAD /* CinderCocoaTouch.h */; };
@@ -483,7 +481,6 @@
 		00C151E50ED9C02F00549EF3 /* DisplayList.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C151E40ED9C02F00549EF3 /* DisplayList.h */; };
 		00C152740EDB927B00549EF3 /* Cairo.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C152730EDB927B00549EF3 /* Cairo.h */; };
 		00C153020EDBA5D100549EF3 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C153010EDBA5D100549EF3 /* QuickTime.framework */; };
-		00C154060EDBC12B00549EF3 /* Cairo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00C154050EDBC12B00549EF3 /* Cairo.cpp */; };
 		00C938EF0ECCB753000238B1 /* QuickTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C938EE0ECCB753000238B1 /* QuickTime.h */; };
 		00C938F10ECCB7C7000238B1 /* QuickTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00C938F00ECCB7C7000238B1 /* QuickTime.cpp */; };
 		00CE73940E92DBE40059E09B /* gl.h in Headers */ = {isa = PBXBuildFile; fileRef = 00CE73920E92DBE40059E09B /* gl.h */; };
@@ -638,8 +635,6 @@
 		00E45D0B0E94792600B47EC2 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00E45D0A0E94792600B47EC2 /* Texture.cpp */; };
 		00E71635115919EB0071E506 /* ImageSourceFileUiImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 00E71634115919EB0071E506 /* ImageSourceFileUiImage.h */; };
 		00E71636115919EB0071E506 /* ImageSourceFileUiImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 00E71634115919EB0071E506 /* ImageSourceFileUiImage.h */; };
-		00E7163811591A580071E506 /* ImageSourceFileUiImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00E7163711591A580071E506 /* ImageSourceFileUiImage.mm */; };
-		00E7163911591A580071E506 /* ImageSourceFileUiImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00E7163711591A580071E506 /* ImageSourceFileUiImage.mm */; };
 		00F3BD1D0EBF88AA00382AC1 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00F3BD1C0EBF88AA00382AC1 /* Utilities.cpp */; };
 		00F3BD200EBF89B700382AC1 /* Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 00F3BD1F0EBF89B700382AC1 /* Utilities.h */; };
 		00FCDC1C10D434AC006140C7 /* TileRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00FCDC1B10D434AC006140C7 /* TileRender.cpp */; };
@@ -794,7 +789,6 @@
 		003832DE0E9C03CB00ACB120 /* Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
 		003832E30E9C04AD00ACB120 /* Stream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stream.cpp; sourceTree = "<group>"; };
 		0039FBA8115AE63600BA0BAD /* ImageTargetFileUiImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTargetFileUiImage.h; sourceTree = "<group>"; };
-		0039FBB2115AE69B00BA0BAD /* ImageTargetFileUiImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ImageTargetFileUiImage.mm; sourceTree = "<group>"; };
 		0039FD21115B123B00BA0BAD /* CinderCocoaTouch.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CinderCocoaTouch.mm; path = cocoa/CinderCocoaTouch.mm; sourceTree = "<group>"; };
 		0039FD24115B125400BA0BAD /* CinderCocoaTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CinderCocoaTouch.h; path = cocoa/CinderCocoaTouch.h; sourceTree = "<group>"; };
 		003ADB601038846A00ACF6F2 /* Params.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Params.h; path = params/Params.h; sourceTree = "<group>"; };
@@ -967,7 +961,6 @@
 		00C151E40ED9C02F00549EF3 /* DisplayList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayList.h; path = gl/DisplayList.h; sourceTree = "<group>"; };
 		00C152730EDB927B00549EF3 /* Cairo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = Cairo.h; path = cairo/Cairo.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		00C153010EDBA5D100549EF3 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
-		00C154050EDBC12B00549EF3 /* Cairo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Cairo.cpp; path = cairo/Cairo.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		00C938EE0ECCB753000238B1 /* QuickTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuickTime.h; path = qtime/QuickTime.h; sourceTree = "<group>"; };
 		00C938F00ECCB7C7000238B1 /* QuickTime.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = QuickTime.cpp; path = qtime/QuickTime.cpp; sourceTree = "<group>"; };
 		00CE73920E92DBE40059E09B /* gl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gl.h; path = gl/gl.h; sourceTree = "<group>"; };
@@ -995,7 +988,6 @@
 		00E45D080E94790F00B47EC2 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = gl/Texture.h; sourceTree = "<group>"; };
 		00E45D0A0E94792600B47EC2 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Texture.cpp; path = gl/Texture.cpp; sourceTree = "<group>"; };
 		00E71634115919EB0071E506 /* ImageSourceFileUiImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageSourceFileUiImage.h; sourceTree = "<group>"; };
-		00E7163711591A580071E506 /* ImageSourceFileUiImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ImageSourceFileUiImage.mm; sourceTree = "<group>"; };
 		00F3BD1C0EBF88AA00382AC1 /* Utilities.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Utilities.cpp; sourceTree = "<group>"; };
 		00F3BD1F0EBF89B700382AC1 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		00F976ED0F9D182D00F92D65 /* AppImplCocoaScreenSaver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppImplCocoaScreenSaver.mm; path = app/AppImplCocoaScreenSaver.mm; sourceTree = "<group>"; };
@@ -1419,7 +1411,6 @@
 				C7BA40600FA8BF0F00AADC07 /* audio */,
 				00241A0A0E803708004D34EB /* app */,
 				009987180F79D04D0042F211 /* cocoa */,
-				00C152760EDB92C900549EF3 /* cairo */,
 				00C938F90ECCB8A2000238B1 /* qtime */,
 				00CE73960E92DBEB0059E09B /* gl */,
 				0032FD2A10BB472E00C63A9D /* Exception.cpp */,
@@ -1470,9 +1461,7 @@
 				00BC898A10D2BE9400D6DC59 /* DataTarget.cpp */,
 				009FD54B10C9AEA100D63B1B /* ImageIo.cpp */,
 				009FD55610CAB8B700D63B1B /* ImageSourceFileQuartz.cpp */,
-				00E7163711591A580071E506 /* ImageSourceFileUiImage.mm */,
 				00BC8A0810D2EE2000D6DC59 /* ImageTargetFileQuartz.cpp */,
-				0039FBB2115AE69B00BA0BAD /* ImageTargetFileUiImage.mm */,
 				00A121E61362778200081873 /* Timeline.cpp */,
 				00A121E71362778200081873 /* TimelineItem.cpp */,
 				00A121E81362778200081873 /* Tween.cpp */,
@@ -1519,14 +1508,6 @@
 			isa = PBXGroup;
 			children = (
 				00C152730EDB927B00549EF3 /* Cairo.h */,
-			);
-			name = cairo;
-			sourceTree = "<group>";
-		};
-		00C152760EDB92C900549EF3 /* cairo */ = {
-			isa = PBXGroup;
-			children = (
-				00C154050EDBC12B00549EF3 /* Cairo.cpp */,
 			);
 			name = cairo;
 			sourceTree = "<group>";
@@ -2271,8 +2252,6 @@
 				009D6AF21157FB860037C77C /* AppImplCocoaTouchRendererGl.mm in Sources */,
 				009D6AFF1157FC8B0037C77C /* CinderViewCocoaTouch.mm in Sources */,
 				009D6B1D1157FD3A0037C77C /* AppCocoaTouch.mm in Sources */,
-				00E7163911591A580071E506 /* ImageSourceFileUiImage.mm in Sources */,
-				0039FBB4115AE69B00BA0BAD /* ImageTargetFileUiImage.mm in Sources */,
 				0039FD23115B123B00BA0BAD /* CinderCocoaTouch.mm in Sources */,
 				001E355F115D5EFA000C228C /* Xml.cpp in Sources */,
 				00B729E4115DABD800CD71B9 /* Timer.cpp in Sources */,
@@ -2371,8 +2350,6 @@
 				009D6AF11157FB860037C77C /* AppImplCocoaTouchRendererGl.mm in Sources */,
 				009D6AFE1157FC8B0037C77C /* CinderViewCocoaTouch.mm in Sources */,
 				009D6B1C1157FD3A0037C77C /* AppCocoaTouch.mm in Sources */,
-				00E7163811591A580071E506 /* ImageSourceFileUiImage.mm in Sources */,
-				0039FBB3115AE69B00BA0BAD /* ImageTargetFileUiImage.mm in Sources */,
 				0039FD22115B123B00BA0BAD /* CinderCocoaTouch.mm in Sources */,
 				001E3560115D5EFA000C228C /* Xml.cpp in Sources */,
 				00B729E5115DABD800CD71B9 /* Timer.cpp in Sources */,
@@ -2447,7 +2424,6 @@
 				00C150110ED6710500549EF3 /* Material.cpp in Sources */,
 				00C150A50ED8F88100549EF3 /* Light.cpp in Sources */,
 				00C151DE0ED9BDF500549EF3 /* DisplayList.cpp in Sources */,
-				00C154060EDBC12B00549EF3 /* Cairo.cpp in Sources */,
 				00B4F3E70F53955000B75296 /* AppBasic.cpp in Sources */,
 				00DCBA950F7932F400D88D86 /* CinderView.mm in Sources */,
 				00DCBE270F7986B800D88D86 /* AppImplCocoaRendererGl.mm in Sources */,
@@ -2702,9 +2678,6 @@
 					../lib/macosx/libboost_filesystem.a,
 					../lib/macosx/libboost_system.a,
 					../lib/macosx/libboost_regex.a,
-					"../lib/macosx/libpixman-1.a",
-					../lib/macosx/libpng14.a,
-					../lib/macosx/libcairo.a,
 					../lib/macosx/libz.a,
 				);
 				PRODUCT_NAME = cinder_d;
@@ -2740,9 +2713,6 @@
 					../lib/macosx/libboost_filesystem.a,
 					../lib/macosx/libboost_system.a,
 					../lib/macosx/libboost_regex.a,
-					"../lib/macosx/libpixman-1.a",
-					../lib/macosx/libpng14.a,
-					../lib/macosx/libcairo.a,
 					../lib/macosx/libz.a,
 				);
 				PRODUCT_NAME = cinder;
@@ -2766,7 +2736,6 @@
 				HEADER_SEARCH_PATHS = (
 					../boost,
 					../include/macosx/png,
-					../include/macosx/cairo,
 					../include/jsoncpp,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -2793,7 +2762,6 @@
 				HEADER_SEARCH_PATHS = (
 					../boost,
 					../include/macosx/png,
-					../include/macosx/cairo,
 					../include/jsoncpp,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;

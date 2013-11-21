@@ -61,6 +61,8 @@ namespace cinder {
 	class Camera; class TriMesh2d; class TriMesh; class Sphere;
 	namespace gl {
 		 class VboMesh; class Texture;
+		 typedef std::shared_ptr<Texture>	TextureRef;
+ 		 typedef std::shared_ptr<VboMesh>	VboMeshRef;
 	}
 } // namespace cinder
 
@@ -72,6 +74,7 @@ bool isExtensionAvailable( const std::string &extName );
 //! Clears the OpenGL color buffer using \a color and optionally clears the depth buffer when \a clearDepthBuffer
 void clear( const ColorA &color = ColorA::black(), bool clearDepthBuffer = true );
 
+#if ! defined( CINDER_GLES )
 //! Enables or disables wait for vertical sync
 void enableVerticalSync( bool enable = true );
 //! Disables wait for vertical sync
@@ -115,12 +118,14 @@ inline void setMatricesWindowPersp( const Vec2i &screenSize, float fovDegrees = 
 void setMatricesWindow( int screenWidth, int screenHeight, bool originUpperLeft = true );
 //! Sets the viewport and the \c MODELVIEW and \c PROJECTION matrices to orthographic with the upper-left corner at \c [0,0] and the lower-right at \c [size.x,size.y] if \a originUpperLeft is \c true. Otherwise the origin is in the lower right.
 inline void setMatricesWindow( const Vec2i &screenSize, bool originUpperLeft = true ) { setMatricesWindow( screenSize.x, screenSize.y, originUpperLeft ); }
+#endif // ! defined( CINDER_GLES )
 
 //! Returns the current OpenGL Viewport as an Area
 Area getViewport();
 //! Sets the current OpenGL Viewport to \a area
 void setViewport( const Area &area );
 
+#if ! defined( CINDER_GLES )
 //! Produces a translation by \a pos in the current matrix.
 void translate( const Vec2f &pos );
 //! Produces a translation by \a x and \a y in the current matrix.
@@ -146,7 +151,6 @@ void rotate( const Quatf &quat );
 //! Produces a 2D rotation, the equivalent of a rotation around the Z axis by \a degrees.
 inline void rotate( float degrees ) { rotate( Vec3f( 0, 0, degrees ) ); }
 
-#if ! defined( CINDER_GLES )
 //! Equivalent to glBegin() in immediate mode
 inline void begin( GLenum mode ) { glBegin( mode ); }
 //! Equivalent to glEnd() in immediate mode
@@ -215,6 +219,10 @@ void enableDepthRead( bool enable = true );
 //! Enables writing to the depth buffer when \a enable.
 void enableDepthWrite( bool enable = true );
 
+#if ! defined( CINDER_GLES )
+//! Specifies the rasterized width of both aliased and antialiased lines.
+inline void lineWidth( float width ) { glLineWidth( width ); }
+
 //! Draws a line from \a start to \a end
 void drawLine( const Vec2f &start, const Vec2f &end );
 //! Draws a line from \a start to \a end
@@ -273,8 +281,6 @@ void draw( const class Path2d &path2d, float approximationScale = 1.0f );
 //! Draws a Shape2d \a shape2d using approximation scale \a approximationScale. 1.0 corresponds to screenspace, 2.0 is double screen resolution, etc
 void draw( const class Shape2d &shape2d, float approximationScale = 1.0f );
 
-#if ! defined( CINDER_GLES )
-
 //! Draws a solid (filled) Path2d \a path2d using approximation scale \a approximationScale. 1.0 corresponds to screenspace, 2.0 is double screen resolution, etc. Performance warning: This routine tesselates the polygon into triangles. Consider using Triangulator directly.
 void drawSolid( const class Path2d &path2d, float approximationScale = 1.0f );
 //! Draws a solid (filled) Shape2d \a shape2d using approximation scale \a approximationScale. 1.0 corresponds to screenspace, 2.0 is double screen resolution, etc. Performance warning: This routine tesselates the polygon into triangles. Consider using Triangulator directly.
@@ -290,24 +296,33 @@ void drawRange( const TriMesh2d &mesh, size_t startTriangle, size_t triangleCoun
 void draw( const TriMesh &mesh );
 //! Draws a range of triangles starting with triangle # \a startTriangle and a count of \a triangleCount from cinder::TriMesh \a mesh at the origin.
 void drawRange( const TriMesh &mesh, size_t startTriangle, size_t triangleCount );
+
 //! Draws a cinder::gl::VboMesh \a mesh at the origin.
 void draw( const VboMesh &vbo );
+inline void draw( const VboMeshRef &vbo ) { draw( *vbo ); }
 //! Draws a range of vertices and elements of cinder::gl::VboMesh \a mesh at the origin. Default parameters for \a vertexStart and \a vertexEnd imply the VboMesh's full range of vertices.
 void drawRange( const VboMesh &vbo, size_t startIndex, size_t indexCount, int vertexStart = -1, int vertexEnd = -1 );
+inline void drawRange( const VboMeshRef &vbo, size_t startIndex, size_t indexCount, int vertexStart = -1, int vertexEnd = -1 ) { drawRange( *vbo, startIndex, indexCount, vertexStart, vertexEnd ); }
 //! Draws a range of elements from a cinder::gl::VboMesh \a vbo.
 void drawArrays( const VboMesh &vbo, GLint first, GLsizei count );
 //!	Draws a textured quad of size \a scale that is aligned with the vectors \a bbRight and \a bbUp at \a pos, rotated by \a rotationDegrees around the vector orthogonal to \a bbRight and \a bbUp.
-#endif // ! defined( CINDER_GLES )
 
+inline void drawArrays( const VboMeshRef &vbo, GLint first, GLsizei count ) { drawArrays( *vbo, first, count ); }
+
+//!	Draws a textured quad of size \a scale that is aligned with the vectors \a bbRight and \a bbUp at \a pos, rotated by \a rotationDegrees around the vector orthogonal to \a bbRight and \a bbUp.	
 void drawBillboard( const Vec3f &pos, const Vec2f &scale, float rotationDegrees, const Vec3f &bbRight, const Vec3f &bbUp );
 //! Draws \a texture on the XY-plane
 void draw( const Texture &texture );
+inline void draw( const TextureRef &texture ) { draw( *texture ); }
 //! Draws \a texture on the XY-plane at \a pos
 void draw( const Texture &texture, const Vec2f &pos );
+inline void draw( const TextureRef &texture, const Vec2f &pos ) { draw( *texture, pos ); }
 //! Draws \a texture on the XY-plane in the rectangle defined by \a rect
 void draw( const Texture &texture, const Rectf &rect );
+inline void draw( const TextureRef &texture, const Rectf &rect ) { draw( *texture, rect ); }
 //! Draws the pixels inside \a srcArea of \a texture on the XY-plane in the rectangle defined by \a destRect
 void draw( const Texture &texture, const Area &srcArea, const Rectf &destRect );
+inline void draw( const TextureRef &texture, const Area &srcArea, const Rectf &destRect ) { draw( *texture, srcArea, destRect ); }
 
 //! Draws a string \a str with its lower left corner located at \a pos. Optional \a font and \a color affect the style.
 void drawString( const std::string &str, const Vec2f &pos, const ColorA &color = ColorA( 1, 1, 1, 1 ), Font font = Font() );
@@ -315,6 +330,7 @@ void drawString( const std::string &str, const Vec2f &pos, const ColorA &color =
 void drawStringCentered( const std::string &str, const Vec2f &pos, const ColorA &color = ColorA( 1, 1, 1, 1 ), Font font = Font() );
 //! Draws a right-justified string \a str with the center of its  located at \a pos. Optional \a font and \a color affect the style
 void drawStringRight( const std::string &str, const Vec2f &pos, const ColorA &color = ColorA( 1, 1, 1, 1 ), Font font = Font() );
+#endif //! defined( CINDER_GLES )
 
 
 //! Convenience class designed to push and pop the currently bound texture for a given texture unit

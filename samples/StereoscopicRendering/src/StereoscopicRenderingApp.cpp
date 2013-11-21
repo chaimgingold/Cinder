@@ -75,7 +75,7 @@ public:
 
 	void keyDown( KeyEvent event );
 
-	void resize( ResizeEvent event );
+	void resize();
 private:
 	void createFbo();
 
@@ -348,10 +348,10 @@ void StereoscopicRenderingApp::keyDown( KeyEvent event )
 	}
 }
 
-void StereoscopicRenderingApp::resize( ResizeEvent event )
+void StereoscopicRenderingApp::resize()
 {
 	// make sure the camera's aspect ratio remains correct
-	mCamera.setAspectRatio( event.getAspectRatio() );	
+	mCamera.setAspectRatio( getWindowAspectRatio() );
 	mMayaCam.setCurrentCam( mCamera );
 
 	// create/resize the Frame Buffer Object required for some of the render methods
@@ -582,7 +582,7 @@ void StereoscopicRenderingApp::renderUI()
 		case AUTO_FOCUS: focusMode = "autoFocus(cam)"; break;
 	}
 
-    std::string labels( "Render mode (F1-F4):\nFocus mode (1-3):\nFocal Length:\nEye Distance:\nAuto Focus Depth (Up/Down):\nAuto Focus Speed (Left/Right):" );
+    std::string labels( "Render mode (F1-F5):\nFocus mode (1-3):\nFocal Length:\nEye Distance:\nAuto Focus Depth (Up/Down):\nAuto Focus Speed (Left/Right):" );
     boost::format values = boost::format( "%s\n%s\n%.2f\n%.2f\n%.2f\n%.2f" ) % renderMode % focusMode % mCamera.getConvergence() % mCamera.getEyeSeparation() % mAF.getDepth() % mAF.getSpeed();
 
 #if(defined CINDER_MSW)
