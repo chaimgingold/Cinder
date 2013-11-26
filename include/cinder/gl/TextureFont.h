@@ -23,6 +23,8 @@
 #pragma once
 
 #include "cinder/Cinder.h"
+
+#ifndef CINDER_GLES2
 #include "cinder/Text.h"
 #include "cinder/Font.h"
 #include "cinder/gl/Texture.h"
@@ -168,3 +170,5 @@ class TextureFont {
 };
 
 } } // namespace cinder::gl
+
+#endif // #ifndef CINDER_GLES2

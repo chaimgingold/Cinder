@@ -305,7 +305,6 @@
 		007050B91114F93F003FCAE4 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BA408A0FA8C13A00AADC07 /* AudioUnit.framework */; };
 		007050BA1114F93F003FCAE4 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BA408C0FA8C13A00AADC07 /* CoreAudio.framework */; };
 		0071BD050FB9F4AD0092E7D6 /* Display.h in Headers */ = {isa = PBXBuildFile; fileRef = 0071BD040FB9F4AD0092E7D6 /* Display.h */; };
-		0071BD090FB9FA2C0092E7D6 /* Display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0071BD080FB9FA2C0092E7D6 /* Display.cpp */; };
 		007438420EA7924F005DD3E6 /* Capture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 007438400EA7924F005DD3E6 /* Capture.cpp */; };
 		007438E00EA7975A005DD3E6 /* Capture.h in Headers */ = {isa = PBXBuildFile; fileRef = 007438DE0EA7975A005DD3E6 /* Capture.h */; };
 		007439930EA7BB47005DD3E6 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 007439920EA7BB47005DD3E6 /* QTKit.framework */; };
@@ -639,6 +638,18 @@
 		00F3BD200EBF89B700382AC1 /* Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 00F3BD1F0EBF89B700382AC1 /* Utilities.h */; };
 		00FCDC1C10D434AC006140C7 /* TileRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00FCDC1B10D434AC006140C7 /* TileRender.cpp */; };
 		00FCDC2010D4387D006140C7 /* TileRender.h in Headers */ = {isa = PBXBuildFile; fileRef = 00FCDC1F10D4387D006140C7 /* TileRender.h */; };
+		264CCA3A183DA2E50076048B /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 264CCA39183DA2E50076048B /* Window.cpp */; };
+		264CCA3B183DA2E50076048B /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 264CCA39183DA2E50076048B /* Window.cpp */; };
+		264CCA3C183DA2E50076048B /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 264CCA39183DA2E50076048B /* Window.cpp */; };
+		2665EEFF18441BC100C34371 /* ImageSourceFileQuartz.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 009FD55610CAB8B700D63B1B /* ImageSourceFileQuartz.cpp */; };
+		2665EF0018441BC200C34371 /* ImageSourceFileQuartz.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 009FD55610CAB8B700D63B1B /* ImageSourceFileQuartz.cpp */; };
+		2665EF0118441BE100C34371 /* ImageTargetFileQuartz.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00BC8A0810D2EE2000D6DC59 /* ImageTargetFileQuartz.cpp */; };
+		2665EF0218441BE200C34371 /* ImageTargetFileQuartz.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00BC8A0810D2EE2000D6DC59 /* ImageTargetFileQuartz.cpp */; };
+		26EDF5BE1843F9AD0092F6C4 /* Display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26EDF5BD1843F9AD0092F6C4 /* Display.cpp */; };
+		26EDF5BF1843F9AD0092F6C4 /* Display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26EDF5BD1843F9AD0092F6C4 /* Display.cpp */; };
+		26EDF5C01843F9AD0092F6C4 /* Display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26EDF5BD1843F9AD0092F6C4 /* Display.cpp */; };
+		26EDF5C11843FA370092F6C4 /* GlslProg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00D9A07B0EA57C3F00FF5AEB /* GlslProg.cpp */; };
+		26EDF5C21843FA380092F6C4 /* GlslProg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00D9A07B0EA57C3F00FF5AEB /* GlslProg.cpp */; };
 		277C2CF01366632B00178A29 /* Matrix22.h in Headers */ = {isa = PBXBuildFile; fileRef = 277C2CEC1366632B00178A29 /* Matrix22.h */; };
 		277C2CF11366632B00178A29 /* Matrix33.h in Headers */ = {isa = PBXBuildFile; fileRef = 277C2CED1366632B00178A29 /* Matrix33.h */; };
 		277C2CF21366632B00178A29 /* Matrix44.h in Headers */ = {isa = PBXBuildFile; fileRef = 277C2CEE1366632B00178A29 /* Matrix44.h */; };
@@ -855,7 +866,6 @@
 		006A1EC811D7F3AC00941A5E /* MovieWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MovieWriter.h; path = qtime/MovieWriter.h; sourceTree = "<group>"; };
 		007050BE1114F93F003FCAE4 /* libcinder-iphone_d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcinder-iphone_d.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0071BD040FB9F4AD0092E7D6 /* Display.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Display.h; sourceTree = "<group>"; };
-		0071BD080FB9FA2C0092E7D6 /* Display.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Display.cpp; sourceTree = "<group>"; };
 		007438400EA7924F005DD3E6 /* Capture.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Capture.cpp; sourceTree = "<group>"; };
 		007438DE0EA7975A005DD3E6 /* Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Capture.h; sourceTree = "<group>"; };
 		007439920EA7BB47005DD3E6 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = ../../../../../../Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
@@ -996,9 +1006,11 @@
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		264CCA39183DA2E50076048B /* Window.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Window.cpp; path = app/Window.cpp; sourceTree = "<group>"; };
+		26EDF5BD1843F9AD0092F6C4 /* Display.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Display.cpp; sourceTree = "<group>"; };
 		277C2CEC1366632B00178A29 /* Matrix22.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix22.h; sourceTree = "<group>"; };
 		277C2CED1366632B00178A29 /* Matrix33.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix33.h; sourceTree = "<group>"; };
-		277C2CEE1366632B00178A29 /* Matrix44.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Matrix44.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		277C2CEE1366632B00178A29 /* Matrix44.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Matrix44.h; sourceTree = "<group>"; };
 		277C2CEF1366632B00178A29 /* MatrixAlgo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatrixAlgo.h; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* cinder_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cinder_Prefix.pch; sourceTree = "<group>"; };
 		434708D81267EE4300AA7349 /* Blend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Blend.cpp; path = ip/Blend.cpp; sourceTree = "<group>"; };
@@ -1152,6 +1164,7 @@
 				0049C1B61010E5B10015B4B9 /* Renderer.cpp */,
 				00DCBA940F7932F400D88D86 /* CinderView.mm */,
 				009D6AFD1157FC8B0037C77C /* CinderViewCocoaTouch.mm */,
+				264CCA39183DA2E50076048B /* Window.cpp */,
 			);
 			name = app;
 			sourceTree = "<group>";
@@ -1434,6 +1447,7 @@
 				007438400EA7924F005DD3E6 /* Capture.cpp */,
 				C7FA5FC012124A790065683B /* CaptureImplQtKit.mm */,
 				C7FA5FC112124A790065683B /* CaptureImplAvFoundation.mm */,
+				26EDF5BD1843F9AD0092F6C4 /* Display.cpp */,
 				003832E30E9C04AD00ACB120 /* Stream.cpp */,
 				00B729E2115DABD800CD71B9 /* Timer.cpp */,
 				00D92FB70EB8AE5200EE9D75 /* Url.cpp */,
@@ -1447,7 +1461,6 @@
 				0012529212344FAA00080A0D /* Ray.cpp */,
 				002DFC070FA50D1600E45AE0 /* TriMesh.cpp */,
 				00A113D4135535C500081873 /* Triangulate.cpp */,
-				0071BD080FB9FA2C0092E7D6 /* Display.cpp */,
 				00C071AF0FF16244004801EA /* Font.cpp */,
 				0005291F0FFBF4C200F19492 /* Text.cpp */,
 				0034C317151A5B7F003F2E30 /* Unicode.cpp */,
@@ -2217,6 +2230,7 @@
 				007050531114F93F003FCAE4 /* Stream.cpp in Sources */,
 				007050571114F93F003FCAE4 /* Color.cpp in Sources */,
 				007050581114F93F003FCAE4 /* Rect.cpp in Sources */,
+				2665EEFF18441BC100C34371 /* ImageSourceFileQuartz.cpp in Sources */,
 				007050691114F93F003FCAE4 /* Utilities.cpp in Sources */,
 				007050781114F93F003FCAE4 /* CinderCocoa.mm in Sources */,
 				007050791114F93F003FCAE4 /* PolyLine.cpp in Sources */,
@@ -2230,8 +2244,10 @@
 				0070508A1114F93F003FCAE4 /* Path2d.cpp in Sources */,
 				0070509B1114F93F003FCAE4 /* System.cpp in Sources */,
 				0070509C1114F93F003FCAE4 /* Buffer.cpp in Sources */,
+				26EDF5BF1843F9AD0092F6C4 /* Display.cpp in Sources */,
 				0070509D1114F93F003FCAE4 /* Exception.cpp in Sources */,
 				0070509E1114F93F003FCAE4 /* DataSource.cpp in Sources */,
+				2665EF0118441BE100C34371 /* ImageTargetFileQuartz.cpp in Sources */,
 				0070509F1114F93F003FCAE4 /* ImageIo.cpp in Sources */,
 				007050A11114F93F003FCAE4 /* DataTarget.cpp in Sources */,
 				007050A41114F93F003FCAE4 /* Shape2d.cpp in Sources */,
@@ -2242,8 +2258,10 @@
 				007050A91114F93F003FCAE4 /* Hdr.cpp in Sources */,
 				007050AA1114F93F003FCAE4 /* Premultiply.cpp in Sources */,
 				007050AB1114F93F003FCAE4 /* Resize.cpp in Sources */,
+				264CCA3B183DA2E50076048B /* Window.cpp in Sources */,
 				007050AC1114F93F003FCAE4 /* Threshold.cpp in Sources */,
 				007050AD1114F93F003FCAE4 /* Trim.cpp in Sources */,
+				26EDF5C11843FA370092F6C4 /* GlslProg.cpp in Sources */,
 				00CFDA511135CB010091E310 /* gl.cpp in Sources */,
 				00CFDB651135EBC30091E310 /* Texture.cpp in Sources */,
 				00CFDD8811363AF50091E310 /* App.cpp in Sources */,
@@ -2312,6 +2330,7 @@
 				00CFD9A11135C3520091E310 /* Area.cpp in Sources */,
 				00CFD9A21135C3520091E310 /* Rand.cpp in Sources */,
 				00CFD9A31135C3520091E310 /* KeyEvent.cpp in Sources */,
+				26EDF5C21843FA380092F6C4 /* GlslProg.cpp in Sources */,
 				00CFD9A41135C3520091E310 /* Stream.cpp in Sources */,
 				00CFD9A51135C3520091E310 /* Color.cpp in Sources */,
 				00CFD9A61135C3520091E310 /* Rect.cpp in Sources */,
@@ -2320,6 +2339,7 @@
 				00CFD9BA1135C3520091E310 /* PolyLine.cpp in Sources */,
 				00CFD9BB1135C3520091E310 /* BandedMatrix.cpp in Sources */,
 				00CFD9BC1135C3520091E310 /* BSplineFit.cpp in Sources */,
+				26EDF5C01843F9AD0092F6C4 /* Display.cpp in Sources */,
 				00CFD9BD1135C3520091E310 /* BSpline.cpp in Sources */,
 				00CFD9BE1135C3520091E310 /* Perlin.cpp in Sources */,
 				00CFD9BF1135C3520091E310 /* Sphere.cpp in Sources */,
@@ -2336,11 +2356,13 @@
 				00CFD9CC1135C3520091E310 /* EdgeDetect.cpp in Sources */,
 				00CFD9CD1135C3520091E310 /* Fill.cpp in Sources */,
 				00CFD9CE1135C3520091E310 /* Flip.cpp in Sources */,
+				264CCA3C183DA2E50076048B /* Window.cpp in Sources */,
 				00CFD9CF1135C3520091E310 /* Grayscale.cpp in Sources */,
 				00CFD9D01135C3520091E310 /* Hdr.cpp in Sources */,
 				00CFD9D11135C3520091E310 /* Premultiply.cpp in Sources */,
 				00CFD9D21135C3520091E310 /* Resize.cpp in Sources */,
 				00CFD9D31135C3520091E310 /* Threshold.cpp in Sources */,
+				2665EF0218441BE200C34371 /* ImageTargetFileQuartz.cpp in Sources */,
 				00CFD9D41135C3520091E310 /* Trim.cpp in Sources */,
 				00CFDA521135CB020091E310 /* gl.cpp in Sources */,
 				00CFDB661135EBC40091E310 /* Texture.cpp in Sources */,
@@ -2361,6 +2383,7 @@
 				43ED153D1221DF6C003AEB0B /* UrlImplCocoa.mm in Sources */,
 				0012529512344FAA00080A0D /* Ray.cpp in Sources */,
 				C7FB1B9F124BE2ED0045AFD2 /* Input.cpp in Sources */,
+				2665EF0018441BC200C34371 /* ImageSourceFileQuartz.cpp in Sources */,
 				C7FB1BA0124BE2ED0045AFD2 /* InputImplAudioUnit.cpp in Sources */,
 				C7FB1BA1124BE2ED0045AFD2 /* OutputImplAudioUnit.cpp in Sources */,
 				C7FB1BA2124BE2ED0045AFD2 /* PcmBuffer.cpp in Sources */,
@@ -2432,13 +2455,13 @@
 				009EE56D0F803F5600F17CB1 /* BandedMatrix.cpp in Sources */,
 				009EE56E0F803F5600F17CB1 /* BSplineFit.cpp in Sources */,
 				009EE56F0F803F5600F17CB1 /* BSpline.cpp in Sources */,
+				264CCA3A183DA2E50076048B /* Window.cpp in Sources */,
 				00A9CF010F8AC1F100B0FF8A /* AppImplCocoaRendererQuartz.mm in Sources */,
 				00D2F1860F8D8ACD00A7189A /* Perlin.cpp in Sources */,
 				00D2F6F70F9189C000A7189A /* Sphere.cpp in Sources */,
 				002DFC080FA50D1600E45AE0 /* TriMesh.cpp in Sources */,
 				002DFD510FA5600900E45AE0 /* ObjLoader.cpp in Sources */,
 				008ACC5F0FACCB2200CAAF4D /* Vbo.cpp in Sources */,
-				0071BD090FB9FA2C0092E7D6 /* Display.cpp in Sources */,
 				001F520A0FCF99A10021731E /* Path2d.cpp in Sources */,
 				00C071B00FF16244004801EA /* Font.cpp in Sources */,
 				000529200FFBF4C200F19492 /* Text.cpp in Sources */,
@@ -2498,6 +2521,7 @@
 				00A1140B1355369A00081873 /* mesh.c in Sources */,
 				00A1140D1355369A00081873 /* priorityq.c in Sources */,
 				00A1140F1355369A00081873 /* sweep.c in Sources */,
+				26EDF5BE1843F9AD0092F6C4 /* Display.cpp in Sources */,
 				00A114111355369A00081873 /* tess.c in Sources */,
 				4354C4801357BC1100120EE3 /* TextureFont.cpp in Sources */,
 				43C432401450A8DA0095B260 /* CinderMath.cpp in Sources */,
@@ -2527,8 +2551,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CHECKED_STL = "-D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC";
+				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
@@ -2549,7 +2574,7 @@
 				PRODUCT_NAME = "cinder-iphone_d";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv6 armv7";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -2557,7 +2582,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2582,7 +2608,7 @@
 				PRODUCT_NAME = "cinder-iphone";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv6 armv7";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};
@@ -2765,6 +2791,7 @@
 					../include/jsoncpp,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LLVM_VECTORIZE_LOOPS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OBJROOT = build/;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
