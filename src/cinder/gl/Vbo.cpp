@@ -23,6 +23,7 @@
 #include "cinder/gl/Vbo.h"
 #include <sstream>
 
+
 using namespace std;
 
 namespace cinder { namespace gl {
@@ -61,29 +62,44 @@ void Vbo::unbind()
 void Vbo::bufferData( size_t size, const void *data, GLenum usage )
 {
 	bind();
+#ifdef CINDER_GLES
+	glBufferData( mObj->mTarget, size, data, usage );
+#else
 	glBufferDataARB( mObj->mTarget, size, data, usage );
+#endif
 }
 
 void Vbo::bufferSubData( ptrdiff_t offset, size_t size, const void *data )
 {
 	bind();
+#ifdef CINDER_GLES
+	glBufferSubData( mObj->mTarget, offset, size, data );
+#else
 	glBufferSubDataARB( mObj->mTarget, offset, size, data );
+#endif
 }
 
 uint8_t* Vbo::map( GLenum access )
 {
 	bind();
+#ifdef CINDER_GLES
+	return reinterpret_cast<uint8_t*>( glMapBufferOES( mObj->mTarget, access ) );
+#else
 	return reinterpret_cast<uint8_t*>( glMapBuffer( mObj->mTarget, access ) );
+#endif
 }
 
 void Vbo::unmap()
 {
 	bind();
+#ifdef CINDER_GLES
+	GLboolean result = glUnmapBufferOES( mObj->mTarget );
+#else
 	GLboolean result = glUnmapBuffer( mObj->mTarget );
+#endif
 	if( result != GL_TRUE )
 		throw VboFailedUnmapExc();
 }
-
 
 bool VboMesh::Layout::hasStaticTexCoords() const
 {
@@ -101,6 +117,19 @@ bool VboMesh::Layout::hasDynamicTexCoords() const
 			return true;
 		
 	return false;
+}
+
+void VboMesh::Layout::setIndicesType( GLenum t )
+{
+	mIndexType = t ;
+	
+	switch(mIndexType)
+	{
+		case GL_UNSIGNED_INT:	mSizeOfIndexType = sizeof(GLuint)   ; break ;
+		case GL_UNSIGNED_BYTE:	mSizeOfIndexType = sizeof(GLubyte)  ; break ;
+		case GL_UNSIGNED_SHORT:	mSizeOfIndexType = sizeof(GLushort) ; break ;
+		default: throw;
+	}
 }
 
 
@@ -129,15 +158,21 @@ VboMesh::VboMesh( const TriMesh &triMesh, Layout layout )
 	initializeBuffers( false );
 			
 	// upload the indices
-	getIndexVbo().bufferData( sizeof(uint32_t) * triMesh.getNumIndices(), &(triMesh.getIndices()[0]), (mObj->mLayout.hasStaticIndices()) ? GL_STATIC_DRAW : GL_STREAM_DRAW );
+	if ( mObj->mLayout.getIndicesType() != GL_UNSIGNED_INT ) throw ;
+
+	getIndexVbo().bufferData( mObj->mLayout.getSizeOfIndicesType() * triMesh.getNumIndices(), &(triMesh.getIndices()[0]), (mObj->mLayout.hasStaticIndices()) ? GL_STATIC_DRAW : GL_STREAM_DRAW );
 	
 	// upload the verts
 	for( int buffer = STATIC_BUFFER; buffer <= DYNAMIC_BUFFER; ++buffer ) {
 		if( ! mObj->mBuffers[buffer] )
 			continue;
 		
+	#ifdef CINDER_GLES2
+		uint8_t *ptr = mObj->mBuffers[buffer].map( GL_WRITE_ONLY_OES );
+	#else
 		uint8_t *ptr = mObj->mBuffers[buffer].map( GL_WRITE_ONLY );
-		
+	#endif
+	
 		bool copyPosition = ( buffer == STATIC_BUFFER ) ? mObj->mLayout.hasStaticPositions() : mObj->mLayout.hasDynamicPositions();
 		bool copyNormal = ( ( buffer == STATIC_BUFFER ) ? mObj->mLayout.hasStaticNormals() : mObj->mLayout.hasDynamicNormals() ) && triMesh.hasNormals();
 		bool copyColorRGB = ( ( buffer == STATIC_BUFFER ) ? mObj->mLayout.hasStaticColorsRGB() : mObj->mLayout.hasDynamicColorsRGB() ) && triMesh.hasColorsRGB();
@@ -196,14 +231,20 @@ VboMesh::VboMesh( const TriMesh2d &triMesh, Layout layout )
 	initializeBuffers( false );
 			
 	// upload the indices
-	getIndexVbo().bufferData( sizeof(uint32_t) * triMesh.getNumIndices(), &(triMesh.getIndices()[0]), (mObj->mLayout.hasStaticIndices()) ? GL_STATIC_DRAW : GL_STREAM_DRAW );
+	if ( mObj->mLayout.getIndicesType() != GL_UNSIGNED_INT ) throw ;
+
+	getIndexVbo().bufferData( mObj->mLayout.getSizeOfIndicesType() * triMesh.getNumIndices(), &(triMesh.getIndices()[0]), (mObj->mLayout.hasStaticIndices()) ? GL_STATIC_DRAW : GL_STREAM_DRAW );
 	
 	// upload the verts
 	for( int buffer = STATIC_BUFFER; buffer <= DYNAMIC_BUFFER; ++buffer ) {
 		if( ! mObj->mBuffers[buffer] )
 			continue;
-		
+
+	#ifdef CINDER_GLES2
+		uint8_t *ptr = mObj->mBuffers[buffer].map( GL_WRITE_ONLY_OES );
+	#else
 		uint8_t *ptr = mObj->mBuffers[buffer].map( GL_WRITE_ONLY );
+	#endif
 		
 		bool copyPosition = ( buffer == STATIC_BUFFER ) ? mObj->mLayout.hasStaticPositions() : mObj->mLayout.hasDynamicPositions();
 		bool copyColorRGB = ( ( buffer == STATIC_BUFFER ) ? mObj->mLayout.hasStaticColorsRGB() : mObj->mLayout.hasDynamicColorsRGB() ) && triMesh.hasColorsRgb();
@@ -248,7 +289,7 @@ VboMesh::VboMesh( size_t numVertices, size_t numIndices, Layout layout, GLenum p
 	
 	// allocate buffer for indices
 	if( mObj->mLayout.hasIndices() )
-		mObj->mBuffers[INDEX_BUFFER].bufferData( sizeof(uint32_t) * mObj->mNumIndices, NULL, (mObj->mLayout.hasStaticIndices()) ? GL_STATIC_DRAW : GL_STREAM_DRAW );
+		mObj->mBuffers[INDEX_BUFFER].bufferData( mObj->mLayout.getSizeOfIndicesType() * mObj->mNumIndices, NULL, (mObj->mLayout.hasStaticIndices()) ? GL_STATIC_DRAW : GL_STREAM_DRAW );
 	
 	unbindBuffers();	
 }
@@ -450,6 +491,7 @@ void VboMesh::initializeBuffers( bool staticDataPlanar )
 
 void VboMesh::enableClientStates() const
 {
+	#ifndef CINDER_GLES2
 	if( mObj->mLayout.hasPositions() )
 		glEnableClientState( GL_VERTEX_ARRAY );
 	else
@@ -462,13 +504,14 @@ void VboMesh::enableClientStates() const
 		glEnableClientState( GL_COLOR_ARRAY );
 	else
 		glDisableClientState( GL_COLOR_ARRAY );
-		
+	
 	for( size_t t = 0; t <= ATTR_MAX_TEXTURE_UNIT; ++t ) {
 		if( mObj->mLayout.hasTexCoords( t ) ) {
 			glClientActiveTexture( GL_TEXTURE0 + t );
 			glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 		}
 	}	
+	#endif
 	
 	for( size_t a = 0; a < mObj->mCustomStaticLocations.size(); ++a ) {
 		if( mObj->mCustomStaticLocations[a] < 0 )
@@ -485,6 +528,7 @@ void VboMesh::enableClientStates() const
 
 void VboMesh::disableClientStates() const
 {
+	#ifndef CINDER_GLES2	
 	glDisableClientState( GL_VERTEX_ARRAY );
 	glDisableClientState( GL_NORMAL_ARRAY );
 	glDisableClientState( GL_COLOR_ARRAY );
@@ -493,7 +537,8 @@ void VboMesh::disableClientStates() const
 			glClientActiveTexture( GL_TEXTURE0 + t );
 			glDisableClientState( GL_TEXTURE_COORD_ARRAY );
 		}
-	}	
+	}
+	#endif
 	
 	for( size_t a = 0; a < mObj->mCustomStaticLocations.size(); ++a ) {
 		if( mObj->mCustomStaticLocations[a] < 0 )
@@ -513,7 +558,8 @@ void VboMesh::bindAllData() const
 	if( mObj->mLayout.hasIndices() ) {
 		mObj->mBuffers[INDEX_BUFFER].bind();
 	}
-	
+
+	#ifndef CINDER_GLES2	
 	for( int buffer = STATIC_BUFFER; buffer <= DYNAMIC_BUFFER; ++buffer ) {
 		if( ! mObj->mBuffers[buffer] ) continue;
 		
@@ -543,7 +589,8 @@ void VboMesh::bindAllData() const
 		if( ( buffer == STATIC_BUFFER ) ? mObj->mLayout.hasStaticPositions() : mObj->mLayout.hasDynamicPositions() )
 			glVertexPointer( 3, GL_FLOAT, stride, (const GLvoid*)mObj->mPositionOffset );
 	}
-
+	#endif
+	
 	for( int buffer = STATIC_BUFFER; buffer <= DYNAMIC_BUFFER; ++buffer ) {
 		if( ! mObj->mBuffers[buffer] ) continue;
 
@@ -574,9 +621,101 @@ void VboMesh::unbindBuffers()
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
+void VboMesh::bindVao() const
+{
+	// create?
+	if ( ! mObj->mVaoCached )
+	{
+		// delete old vao
+		if (mObj->mVaoExists)
+		{
+		#if defined( CINDER_GLES )
+			glDeleteVertexArraysOES( 1, &mObj->mVaoId );
+		#else
+			glDeleteVertexArraysAPPLE( 1, &mObj->mVaoId );
+		#endif
+		}
+		
+		// make new vao
+	#if defined( CINDER_GLES )
+		glGenVertexArraysOES( 1, &mObj->mVaoId );
+	#else
+		glGenVertexArraysAPPLE( 1, &mObj->mVaoId );
+	#endif
+
+		// bind vao
+	#if defined( CINDER_GLES )
+		glBindVertexArrayOES( mObj->mVaoId );
+	#else
+		glBindVertexArrayAPPLE( mObj->mVaoId );
+	#endif
+		
+		// capture state
+		bindAllData() ;
+		enableClientStates() ;
+		
+		// unbind
+		unbindVao() ;
+		unbindBuffers() ;
+		disableClientStates() ;
+		
+		// set flags
+		mObj->mVaoCached = true ;
+		mObj->mVaoExists = true ;
+	}	
+
+	
+	// bind
+#if defined( CINDER_GLES )
+	glBindVertexArrayOES( mObj->mVaoId );
+#else
+	glBindVertexArrayAPPLE( mObj->mVaoId );
+#endif
+}
+
+void VboMesh::unbindVao() const
+{
+#if defined( CINDER_GLES )
+	glBindVertexArrayOES(0) ;
+#else
+	glBindVertexArrayAPPLE(0) ;
+#endif
+}
+
+void VboMesh::setCustomStaticLocation( size_t internalIndex, GLuint location )
+{
+	if ( mObj->mCustomStaticLocations[internalIndex] != location )
+	{
+		mObj->mCustomStaticLocations[internalIndex] = location;
+		mObj->mVaoCached = false ;
+	}
+}
+
+void VboMesh::setCustomDynamicLocation( size_t internalIndex, GLuint location )
+{
+	if ( mObj->mCustomDynamicLocations[internalIndex] != location )
+	{
+		mObj->mCustomDynamicLocations[internalIndex] = location;
+		mObj->mVaoCached = false ;
+	}
+}
+
+VboMesh::Obj::~Obj()
+{
+	if (mVaoExists)
+#if defined( CINDER_GLES )
+		glDeleteVertexArraysOES( 1, &mVaoId );
+#else
+		glDeleteVertexArraysAPPLE( 1, &mVaoId );
+#endif
+}
+
 void VboMesh::bufferIndices( const std::vector<uint32_t> &indices )
 {
-	mObj->mBuffers[INDEX_BUFFER].bufferData( sizeof(uint32_t) * indices.size(), &(indices[0]), (mObj->mLayout.hasStaticIndices()) ? GL_STATIC_DRAW : GL_STREAM_DRAW );
+	if ( mObj->mLayout.getIndicesType() != GL_UNSIGNED_INT )
+		throw ;
+	
+	mObj->mBuffers[INDEX_BUFFER].bufferData( mObj->mLayout.getSizeOfIndicesType() * indices.size(), &(indices[0]), (mObj->mLayout.hasStaticIndices()) ? GL_STATIC_DRAW : GL_STREAM_DRAW );
 }
 
 void VboMesh::bufferPositions( const std::vector<Vec3f> &positions )
@@ -742,9 +881,15 @@ VboMesh::VertexIter::Obj::Obj( const VboMesh &mesh )
 	// Buffer NULL data to tell the driver we don't care about what's in there (See NVIDIA's "Using Vertex Buffer Objects" whitepaper)
 	mVbo.bind();
 	//mVbo.bufferData( mesh.mObj->mDynamicStride * mesh.mObj->mNumVertices, NULL, GL_STREAM_DRAW );
+#ifdef CINDER_GLES
+	glBufferData( GL_ARRAY_BUFFER, mesh.mObj->mDynamicStride * mesh.mObj->mNumVertices, NULL, GL_STREAM_DRAW );
+	//mData = mVbo.map( GL_WRITE_ONLY );
+	mData = reinterpret_cast<uint8_t*>( glMapBufferOES( GL_ARRAY_BUFFER, GL_WRITE_ONLY_OES ) );
+#else
 	glBufferDataARB( GL_ARRAY_BUFFER, mesh.mObj->mDynamicStride * mesh.mObj->mNumVertices, NULL, GL_STREAM_DRAW );
 	//mData = mVbo.map( GL_WRITE_ONLY );
 	mData = reinterpret_cast<uint8_t*>( glMapBuffer( GL_ARRAY_BUFFER, GL_WRITE_ONLY ) );
+#endif
 	mDataEnd = mData + mesh.mObj->mDynamicStride * mesh.getNumVertices();
 }
 

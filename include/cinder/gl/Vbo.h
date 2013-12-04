@@ -123,7 +123,12 @@ class VboMesh {
 		bool	hasDynamicIndices() const { return mAttributes[ATTR_INDICES] == DYNAMIC; }
 		void	setStaticIndices() { mAttributes[ATTR_INDICES] = STATIC; }
 		void	setDynamicIndices() { mAttributes[ATTR_INDICES] = DYNAMIC; }
-
+		
+		/*** Set type of indices. Valid values are \a GL_UNSIGNED_INT, \a GL_UNSIGNED_SHORT, and \a GL_UNSIGNED_BYTE. Default is \a GL_UNSIGNED_INT. **/
+		void	setIndicesType( GLenum t ) ;
+		GLenum	getIndicesType() const { return mIndexType ; }
+		unsigned int getSizeOfIndicesType() const { return mSizeOfIndexType ; }
+		
 		bool	hasPositions() const { return hasStaticPositions() || hasDynamicPositions(); }
 		bool	hasStaticPositions() const { return mAttributes[ATTR_POSITIONS] == STATIC; }
 		bool	hasDynamicPositions() const { return mAttributes[ATTR_POSITIONS] == DYNAMIC; }
@@ -139,8 +144,16 @@ class VboMesh {
 		void	addDynamicCustomVec3f() { mCustomDynamic.push_back( std::make_pair( CUSTOM_ATTR_FLOAT3, 0 ) ); }
 		void	addDynamicCustomVec4f() { mCustomDynamic.push_back( std::make_pair( CUSTOM_ATTR_FLOAT4, 0 ) ); }
 
+		void	addStaticCustomFloat() { mCustomStatic.push_back( std::make_pair( CUSTOM_ATTR_FLOAT, 0 ) ); }
+		void	addStaticCustomVec2f() { mCustomStatic.push_back( std::make_pair( CUSTOM_ATTR_FLOAT2, 0 ) ); }
+		void	addStaticCustomVec3f() { mCustomStatic.push_back( std::make_pair( CUSTOM_ATTR_FLOAT3, 0 ) ); }
+		void	addStaticCustomVec4f() { mCustomStatic.push_back( std::make_pair( CUSTOM_ATTR_FLOAT4, 0 ) ); }
+
 		int												mAttributes[ATTR_TOTAL];
 		std::vector<std::pair<CustomAttr,size_t> >		mCustomDynamic, mCustomStatic; // pair of <types,offset>
+		
+		GLenum											mIndexType = GL_UNSIGNED_INT ;
+		unsigned int									mSizeOfIndexType = sizeof(GLuint) ;
 		
 	 private:
 		void initAttributes() { for( int a = 0; a < ATTR_TOTAL; ++a ) mAttributes[a] = NONE; }
@@ -150,6 +163,8 @@ class VboMesh {
 	
   protected:
 	struct Obj {
+		~Obj() ; // for cleaning up vao
+		
 		size_t			mNumIndices, mNumVertices;	
 
 		Vbo				mBuffers[TOTAL_BUFFERS];
@@ -158,10 +173,14 @@ class VboMesh {
 		size_t			mColorRGBOffset, mColorRGBAOffset;		
 		size_t			mTexCoordOffset[ATTR_MAX_TEXTURE_UNIT+1];
 		size_t			mStaticStride, mDynamicStride;	
-		GLenum			mPrimitiveType;
+		GLenum			mPrimitiveType ;
 		Layout			mLayout;
 		std::vector<GLint>		mCustomStaticLocations;
 		std::vector<GLint>		mCustomDynamicLocations;
+		
+		mutable GLuint			mVaoId;
+		mutable bool			mVaoCached = false;
+		mutable bool			mVaoExists = false;
 	};
 
   public:
@@ -194,6 +213,10 @@ class VboMesh {
 	void			bindAllData() const;
 	static void		unbindBuffers();
 
+	/*** bindVao uses (and possibly builds) a cached vertex array object. bindVao() is logically equivalent to using enableClientStates() and bindAllData(). unbindVao() is logically equivalent to unbindBuffers() and disableClientStates(). **/
+	void			bindVao() const ;
+	void			unbindVao() const ;
+	
 	void						bufferIndices( const std::vector<uint32_t> &indices );
 	void						bufferPositions( const std::vector<Vec3f> &positions );
 	void						bufferPositions( const Vec3f *positions, size_t count );
@@ -208,8 +231,8 @@ class VboMesh {
 	Vbo&				getStaticVbo() const { return mObj->mBuffers[STATIC_BUFFER]; }
 	Vbo&				getDynamicVbo() const { return mObj->mBuffers[DYNAMIC_BUFFER]; }
 
-	void				setCustomStaticLocation( size_t internalIndex, GLuint location ) { mObj->mCustomStaticLocations[internalIndex] = location; }
-	void				setCustomDynamicLocation( size_t internalIndex, GLuint location ) { mObj->mCustomDynamicLocations[internalIndex] = location; }
+	void				setCustomStaticLocation( size_t internalIndex, GLuint location ) ;
+	void				setCustomDynamicLocation( size_t internalIndex, GLuint location ) ;
 
 	size_t						getTexCoordOffset( size_t unit ) const { return mObj->mTexCoordOffset[unit]; }
 	void						setTexCoordOffset( size_t unit, size_t aTexCoordOffset ) { mObj->mTexCoordOffset[unit] = aTexCoordOffset; }	

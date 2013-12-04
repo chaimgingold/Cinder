@@ -1092,20 +1092,28 @@ void drawCylinder( float base, float top, float height, int slices, int stacks )
 	glEnableClientState( GL_NORMAL_ARRAY );
 	glNormalPointer( GL_FLOAT, 0, normal );
 
+	float deltaRadius = (base-top);
+	float length = Vec2f(deltaRadius,height).length();
+	float yNormal = deltaRadius / length;
+	float xzNormalRatio = height / length;
+
 	for(i=0;i<slices;i++) {
 		float u = (float)i / (float)(slices - 1);
 		float ct = cos(2.0f * (float)M_PI * u);
 		float st = sin(2.0f * (float)M_PI * u);
-
+		
+		float xNormal = xzNormalRatio * ct ;
+		float zNormal = xzNormalRatio * st ;
+		
 		for(j=0;j<stacks;j++) {
 			float v = (float)j / (float)(stacks-1);
 			float radius = lerp<float>(base, top, v); 
 
 			int index = 3 * (i * stacks + j);
 
-			normal[index    ] = ct;
-			normal[index + 1] = 0;
-			normal[index + 2] = st;
+			normal[index    ] = xNormal;
+			normal[index + 1] = yNormal;
+			normal[index + 2] = zNormal;
 
 			tex[2 * (i * stacks + j)    ] = u;
 			tex[2 * (i * stacks + j) + 1] = 1.0f - v; // top of texture is top of cylinder
@@ -1335,15 +1343,49 @@ void drawRange( const TriMesh &mesh, size_t startTriangle, size_t triangleCount 
 	glDisableClientState( GL_COLOR_ARRAY );
 	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
 }
+#endif
+
+const bool kUseVao = false ;
+
+static void bindVbo( const VboMesh &vbo )
+{
+	if (kUseVao)
+		vbo.bindVao() ;
+	else
+	{
+		vbo.enableClientStates();
+		vbo.bindAllData();
+	}
+}
+
+static void unbindVbo( const VboMesh &vbo )
+{
+	if (kUseVao)
+		vbo.unbindVao() ;
+	else
+	{
+		gl::VboMesh::unbindBuffers();
+		vbo.disableClientStates();
+	}
+}
 
 void draw( const VboMesh &vbo )
 {
 	if( vbo.getNumIndices() > 0 )
+	{
+#if defined( CINDER_GLES )
+		bindVbo(vbo) ;
+		glDrawElements( vbo.getPrimitiveType(), vbo.getNumVertices(), vbo.getLayout().getSizeOfIndicesType(), (void*)0 );
+		unbindVbo(vbo) ;
+#else	
 		drawRange( vbo, (size_t)0, vbo.getNumIndices() );
+#endif
+	}
 	else
 		drawArrays( vbo, 0, vbo.getNumVertices() );
 }
 
+#if ! defined( CINDER_GLES )
 void drawRange( const VboMesh &vbo, size_t startIndex, size_t indexCount, int vertexStart, int vertexEnd )
 {
 	if( vbo.getNumIndices() <= 0 )
@@ -1352,25 +1394,25 @@ void drawRange( const VboMesh &vbo, size_t startIndex, size_t indexCount, int ve
 	if( vertexStart < 0 ) vertexStart = 0;
 	if( vertexEnd < 0 ) vertexEnd = vbo.getNumVertices();
 
-	vbo.enableClientStates();
-	vbo.bindAllData();
+	bindVbo(vbo) ;
 	
-	glDrawRangeElements( vbo.getPrimitiveType(), vertexStart, vertexEnd, indexCount, GL_UNSIGNED_INT, (GLvoid*)( sizeof(uint32_t) * startIndex ) );
+	glDrawRangeElements( vbo.getPrimitiveType(), vertexStart, vertexEnd, indexCount, vbo.getLayout().getIndicesType(), (GLvoid*)( vbo.getLayout().getSizeOfIndicesType()* startIndex ) );
 
-	gl::VboMesh::unbindBuffers();
-	vbo.disableClientStates();
+	unbindVbo(vbo) ;
+	
 }
+#endif
 
 void drawArrays( const VboMesh &vbo, GLint first, GLsizei count )
 {
-	vbo.enableClientStates();
-	vbo.bindAllData();
+	bindVbo(vbo) ;
+	
 	glDrawArrays( vbo.getPrimitiveType(), first, count );
 
-	gl::VboMesh::unbindBuffers();
-	vbo.disableClientStates();
+	unbindVbo(vbo) ;
 }
 
+#if ! defined( CINDER_GLES )
 void drawBillboard( const Vec3f &pos, const Vec2f &scale, float rotationDegrees, const Vec3f &bbRight, const Vec3f &bbUp )
 {
 	glEnableClientState( GL_VERTEX_ARRAY );

@@ -645,6 +645,8 @@
 		2665EF0018441BC200C34371 /* ImageSourceFileQuartz.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 009FD55610CAB8B700D63B1B /* ImageSourceFileQuartz.cpp */; };
 		2665EF0118441BE100C34371 /* ImageTargetFileQuartz.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00BC8A0810D2EE2000D6DC59 /* ImageTargetFileQuartz.cpp */; };
 		2665EF0218441BE200C34371 /* ImageTargetFileQuartz.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00BC8A0810D2EE2000D6DC59 /* ImageTargetFileQuartz.cpp */; };
+		26C117A2184E518900543CE0 /* Vbo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 008ACC5E0FACCB2200CAAF4D /* Vbo.cpp */; };
+		26C117A3184E518B00543CE0 /* Vbo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 008ACC5E0FACCB2200CAAF4D /* Vbo.cpp */; };
 		26EDF5BE1843F9AD0092F6C4 /* Display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26EDF5BD1843F9AD0092F6C4 /* Display.cpp */; };
 		26EDF5BF1843F9AD0092F6C4 /* Display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26EDF5BD1843F9AD0092F6C4 /* Display.cpp */; };
 		26EDF5C01843F9AD0092F6C4 /* Display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26EDF5BD1843F9AD0092F6C4 /* Display.cpp */; };
@@ -2258,6 +2260,7 @@
 				007050A91114F93F003FCAE4 /* Hdr.cpp in Sources */,
 				007050AA1114F93F003FCAE4 /* Premultiply.cpp in Sources */,
 				007050AB1114F93F003FCAE4 /* Resize.cpp in Sources */,
+				26C117A2184E518900543CE0 /* Vbo.cpp in Sources */,
 				264CCA3B183DA2E50076048B /* Window.cpp in Sources */,
 				007050AC1114F93F003FCAE4 /* Threshold.cpp in Sources */,
 				007050AD1114F93F003FCAE4 /* Trim.cpp in Sources */,
@@ -2417,6 +2420,7 @@
 				005B0300152CD16E00F2C237 /* json_reader.cpp in Sources */,
 				005B0306152CD16E00F2C237 /* json_value.cpp in Sources */,
 				005B0309152CD16E00F2C237 /* json_writer.cpp in Sources */,
+				26C117A3184E518B00543CE0 /* Vbo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
