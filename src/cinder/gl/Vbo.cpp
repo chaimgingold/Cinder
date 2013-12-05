@@ -167,11 +167,7 @@ VboMesh::VboMesh( const TriMesh &triMesh, Layout layout )
 		if( ! mObj->mBuffers[buffer] )
 			continue;
 		
-	#ifdef CINDER_GLES2
-		uint8_t *ptr = mObj->mBuffers[buffer].map( GL_WRITE_ONLY_OES );
-	#else
-		uint8_t *ptr = mObj->mBuffers[buffer].map( GL_WRITE_ONLY );
-	#endif
+		uint8_t *ptr = mObj->mBuffers[buffer].map( Vbo::WRITE_ONLY );
 	
 		bool copyPosition = ( buffer == STATIC_BUFFER ) ? mObj->mLayout.hasStaticPositions() : mObj->mLayout.hasDynamicPositions();
 		bool copyNormal = ( ( buffer == STATIC_BUFFER ) ? mObj->mLayout.hasStaticNormals() : mObj->mLayout.hasDynamicNormals() ) && triMesh.hasNormals();
@@ -240,12 +236,8 @@ VboMesh::VboMesh( const TriMesh2d &triMesh, Layout layout )
 		if( ! mObj->mBuffers[buffer] )
 			continue;
 
-	#ifdef CINDER_GLES2
-		uint8_t *ptr = mObj->mBuffers[buffer].map( GL_WRITE_ONLY_OES );
-	#else
-		uint8_t *ptr = mObj->mBuffers[buffer].map( GL_WRITE_ONLY );
-	#endif
-		
+		uint8_t *ptr = mObj->mBuffers[buffer].map( Vbo::WRITE_ONLY );
+
 		bool copyPosition = ( buffer == STATIC_BUFFER ) ? mObj->mLayout.hasStaticPositions() : mObj->mLayout.hasDynamicPositions();
 		bool copyColorRGB = ( ( buffer == STATIC_BUFFER ) ? mObj->mLayout.hasStaticColorsRGB() : mObj->mLayout.hasDynamicColorsRGB() ) && triMesh.hasColorsRgb();
 		bool copyColorRGBA = ( ( buffer == STATIC_BUFFER ) ? mObj->mLayout.hasStaticColorsRGBA() : mObj->mLayout.hasDynamicColorsRGBA() ) && triMesh.hasColorsRgba();
@@ -712,10 +704,33 @@ VboMesh::Obj::~Obj()
 
 void VboMesh::bufferIndices( const std::vector<uint32_t> &indices )
 {
-	if ( mObj->mLayout.getIndicesType() != GL_UNSIGNED_INT )
-		throw ;
-	
-	mObj->mBuffers[INDEX_BUFFER].bufferData( mObj->mLayout.getSizeOfIndicesType() * indices.size(), &(indices[0]), (mObj->mLayout.hasStaticIndices()) ? GL_STATIC_DRAW : GL_STREAM_DRAW );
+	switch( mObj->mLayout.getIndicesType() )
+	{
+		case GL_UNSIGNED_INT:
+			mObj->mBuffers[INDEX_BUFFER].bufferData(
+				mObj->mLayout.getSizeOfIndicesType() * indices.size(), &(indices[0]),
+				(mObj->mLayout.hasStaticIndices()) ? GL_STATIC_DRAW : GL_STREAM_DRAW );
+			break ;
+		
+		case GL_UNSIGNED_BYTE:
+		{
+			GLubyte *b = reinterpret_cast<GLubyte*>( mObj->mBuffers[INDEX_BUFFER].map( Vbo::WRITE_ONLY ) ) ;			
+			for( int i=0; i<indices.size(); ++i ) b[i] = indices[i] ;
+			mObj->mBuffers[INDEX_BUFFER].unmap() ;
+			break ;
+		}
+			
+		case GL_UNSIGNED_SHORT:
+		{
+			GLushort *s = reinterpret_cast<GLushort*>( mObj->mBuffers[INDEX_BUFFER].map( Vbo::WRITE_ONLY ) ) ;
+			for( int i=0; i<indices.size(); ++i ) s[i] = indices[i] ;
+			mObj->mBuffers[INDEX_BUFFER].unmap() ;
+			break ;
+		}
+			
+		default:
+			throw ;
+	}
 }
 
 void VboMesh::bufferPositions( const std::vector<Vec3f> &positions )
@@ -835,6 +850,46 @@ void VboMesh::bufferColorsRGBA( const std::vector<ColorA> &colors )
 	}
 	else
 		throw;
+}
+
+template< class T, class P >
+static void bufferCustom( Vbo& vbo, const P& attr, size_t stride, size_t internalIndex, ci::gl::VboMesh::Layout::CustomAttr a, const std::vector<T> &data )
+{
+	if(    attr.size() > internalIndex
+	    && attr[internalIndex].first==a )
+	{
+		if( stride == 0 ) { // planar data
+			vbo.bufferSubData( attr[internalIndex].second, sizeof(T) * data.size(), &(data[0]) );
+		}
+		else
+			throw;
+	}
+	else
+		throw;	
+}
+
+void VboMesh::bufferStaticCustomFloat( size_t internalIndex, const std::vector<float> &custom )
+{
+	bufferCustom(
+		getStaticVbo(), mObj->mLayout.mCustomStatic, mObj->mStaticStride,
+		internalIndex, Layout::CUSTOM_ATTR_FLOAT, custom
+	) ;
+}
+
+void VboMesh::bufferStaticCustomVec2f( size_t internalIndex, const std::vector<Vec2f> &custom )
+{
+	bufferCustom(
+		getStaticVbo(), mObj->mLayout.mCustomStatic, mObj->mStaticStride,
+		internalIndex, Layout::CUSTOM_ATTR_FLOAT2, custom
+	) ;
+}
+
+void VboMesh::bufferStaticCustomVec3f( size_t internalIndex, const std::vector<Vec3f> &custom )
+{
+	bufferCustom(
+		getStaticVbo(), mObj->mLayout.mCustomStatic, mObj->mStaticStride,
+		internalIndex, Layout::CUSTOM_ATTR_FLOAT3, custom
+	) ;
 }
 
 VboMesh::VertexIter	VboMesh::mapVertexBuffer()

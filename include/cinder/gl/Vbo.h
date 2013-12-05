@@ -41,6 +41,17 @@ class Vbo {
 	void		bufferData( size_t size, const void *data, GLenum usage );
 	void		bufferSubData( ptrdiff_t offset, size_t size, const void *data );
 	
+	enum : GLenum
+	{
+	#ifdef CINDER_GLES
+		WRITE_ONLY = GL_WRITE_ONLY_OES
+	#else
+		WRITE_ONLY = GL_WRITE_ONLY,
+		READ_ONLY  = GL_READ_ONLY,
+		READ_WRITE = GL_READ_WRITE
+	#endif
+	} ;
+	
 	uint8_t*	map( GLenum access );
 	void		unmap();
 
@@ -216,8 +227,12 @@ class VboMesh {
 	/*** bindVao uses (and possibly builds) a cached vertex array object. bindVao() is logically equivalent to using enableClientStates() and bindAllData(). unbindVao() is logically equivalent to unbindBuffers() and disableClientStates(). **/
 	void			bindVao() const ;
 	void			unbindVao() const ;
-	
+
+	/*** Buffer indices, which can be stored statically or dynamically. If indices type is not GLint,
+		then each array element is cast. **/	
 	void						bufferIndices( const std::vector<uint32_t> &indices );
+	
+	/*** Buffer data. You can only buffer planar, non-interleaved data. Data is stored like this only if it is static data. **/	
 	void						bufferPositions( const std::vector<Vec3f> &positions );
 	void						bufferPositions( const Vec3f *positions, size_t count );
 	void						bufferNormals( const std::vector<Vec3f> &normals );
@@ -225,6 +240,11 @@ class VboMesh {
 	void						bufferTexCoords3d( size_t unit, const std::vector<Vec3f> &texCoords );
 	void						bufferColorsRGB( const std::vector<Color> &colors );
 	void						bufferColorsRGBA( const std::vector<ColorA> &colors );
+	void						bufferStaticCustomFloat( size_t internalIndex, const std::vector<float> &custom ) ;
+	void						bufferStaticCustomVec2f( size_t internalIndex, const std::vector<Vec2f> &custom ) ;
+	void						bufferStaticCustomVec3f( size_t internalIndex, const std::vector<Vec3f> &custom ) ;
+
+	/*** Update dynamic data, which is stored non-interleaved. **/	
 	class VertexIter			mapVertexBuffer();
 
 	Vbo&				getIndexVbo() const { return mObj->mBuffers[INDEX_BUFFER]; }
@@ -244,6 +264,7 @@ class VboMesh {
 	void reset() { mObj.reset(); }
 	//@}
 
+	/*** VertexIter iterates over dynamic buffer only. **/
 	class VertexIter {
 	 public:
 		VertexIter( const VboMesh &mesh );
