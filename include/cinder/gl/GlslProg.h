@@ -98,6 +98,27 @@ class GlslProg {
 	void	uniform( const std::string &name, const Matrix33f *data, int count, bool transpose = false );
 	void	uniform( const std::string &name, const Matrix44f *data, int count, bool transpose = false );
 
+	void	uniform( GLint, int data );
+	void	uniform( GLint, const Vec2i &data );
+	void	uniform( GLint, const int *data, int count );		
+	void	uniform( GLint, const Vec2i *data, int count );	
+	void	uniform( GLint, float data );
+	void	uniform( GLint, const Vec2f &data );
+	void	uniform( GLint, const Vec3f &data );
+	void	uniform( GLint, const Vec4f &data );
+	void	uniform( GLint, const Color &data );
+	void	uniform( GLint, const ColorA &data );
+	void	uniform( GLint, const Matrix22f &data, bool transpose = false );
+	void	uniform( GLint, const Matrix33f &data, bool transpose = false );
+	void	uniform( GLint, const Matrix44f &data, bool transpose = false );
+	void	uniform( GLint, const float *data, int count );
+	void	uniform( GLint, const Vec2f *data, int count );
+	void	uniform( GLint, const Vec3f *data, int count );
+	void	uniform( GLint, const Vec4f *data, int count );
+	void	uniform( GLint, const Matrix22f *data, int count, bool transpose = false );
+	void	uniform( GLint, const Matrix33f *data, int count, bool transpose = false );
+	void	uniform( GLint, const Matrix44f *data, int count, bool transpose = false );
+	
 	GLint	getUniformLocation( const std::string &name );
 	GLint	getAttribLocation( const std::string &name );
 
