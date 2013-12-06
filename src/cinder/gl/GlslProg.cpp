@@ -47,9 +47,9 @@ GlslProg::Obj::~Obj()
 //////////////////////////////////////////////////////////////////////////
 // GlslProg
 #if defined( CINDER_GLES )
-GlslProg::GlslProg( DataSourceRef vertexShader, DataSourceRef fragmentShader )
+GlslProg::GlslProg( DataSourceRef vertexShader, DataSourceRef fragmentShader, const AttribBindings *bindings )
 #else
-GlslProg::GlslProg( DataSourceRef vertexShader, DataSourceRef fragmentShader, DataSourceRef geometryShader, GLint geometryInputType, GLint geometryOutputType, GLint geometryOutputVertices )
+GlslProg::GlslProg( DataSourceRef vertexShader, DataSourceRef fragmentShader, DataSourceRef geometryShader, GLint geometryInputType, GLint geometryOutputType, GLint geometryOutputVertices, const AttribBindings *bindings )
 #endif
 	: mObj( shared_ptr<Obj>( new Obj ) )
 {
@@ -71,13 +71,15 @@ GlslProg::GlslProg( DataSourceRef vertexShader, DataSourceRef fragmentShader, Da
 	}
 #endif
 
+	if (bindings) bindAttribLocations(*bindings) ;
+
 	link();
 }
 
 #if defined( CINDER_GLES )
-GlslProg::GlslProg( const char *vertexShader, const char *fragmentShader)
+GlslProg::GlslProg( const char *vertexShader, const char *fragmentShader, const AttribBindings *bindings )
 #else
-GlslProg::GlslProg( const char *vertexShader, const char *fragmentShader, const char *geometryShader, GLint geometryInputType, GLint geometryOutputType, GLint geometryOutputVertices)
+GlslProg::GlslProg( const char *vertexShader, const char *fragmentShader, const char *geometryShader, GLint geometryInputType, GLint geometryOutputType, GLint geometryOutputVertices, const AttribBindings *bindings )
 #endif
 	: mObj( shared_ptr<Obj>( new Obj ) )
 {
@@ -99,6 +101,8 @@ GlslProg::GlslProg( const char *vertexShader, const char *fragmentShader, const 
 	}
 #endif
 
+	if (bindings) bindAttribLocations(*bindings) ;
+	
 	link();
 }
 
@@ -125,6 +129,14 @@ void GlslProg::loadShader( const char *shaderSource, GLint shaderType )
 		throw GlslProgCompileExc( log, shaderType );
 	}
 	glAttachShader( mObj->mHandle, handle );
+}
+
+void GlslProg::bindAttribLocations( const AttribBindings& bindings )
+{
+	for( const auto &i : bindings )
+	{
+		glBindAttribLocation( mObj->mHandle, i.first, i.second.c_str() ) ;
+	}
 }
 
 void GlslProg::link()
