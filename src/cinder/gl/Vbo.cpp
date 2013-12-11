@@ -24,6 +24,28 @@
 #include <sstream>
 
 
+// platform neutral GL name definitions
+// for vao
+#if defined( CINDER_GLES )
+	#define glDeleteVertexArrays glDeleteVertexArraysOES
+	#define glBindVertexArray glBindVertexArrayOES
+	#define glGenVertexArrays glGenVertexArraysOES
+#elif defined( CINDER_MAC )
+	#define glDeleteVertexArrays glDeleteVertexArraysAPPLE
+	#define glBindVertexArray glBindVertexArrayAPPLE
+	#define glGenVertexArrays glGenVertexArraysAPPLE
+#endif
+
+// for vbo
+#if defined( CINDER_GLES )
+	#define glMapBuffer glMapBufferOES
+	#define glUnmapBuffer glUnmapBufferOES
+	#define GL_WRITE_ONLY GL_WRITE_ONLY_OES
+#else
+	#define glBufferData glBufferDataARB
+	#define glBufferSubData glBufferSubDataARB
+#endif
+
 using namespace std;
 
 namespace cinder { namespace gl {
@@ -62,41 +84,25 @@ void Vbo::unbind()
 void Vbo::bufferData( size_t size, const void *data, GLenum usage )
 {
 	bind();
-#ifdef CINDER_GLES
 	glBufferData( mObj->mTarget, size, data, usage );
-#else
-	glBufferDataARB( mObj->mTarget, size, data, usage );
-#endif
 }
 
 void Vbo::bufferSubData( ptrdiff_t offset, size_t size, const void *data )
 {
 	bind();
-#ifdef CINDER_GLES
 	glBufferSubData( mObj->mTarget, offset, size, data );
-#else
-	glBufferSubDataARB( mObj->mTarget, offset, size, data );
-#endif
 }
 
 uint8_t* Vbo::map( GLenum access )
 {
 	bind();
-#ifdef CINDER_GLES
-	return reinterpret_cast<uint8_t*>( glMapBufferOES( mObj->mTarget, access ) );
-#else
 	return reinterpret_cast<uint8_t*>( glMapBuffer( mObj->mTarget, access ) );
-#endif
 }
 
 void Vbo::unmap()
 {
 	bind();
-#ifdef CINDER_GLES
-	GLboolean result = glUnmapBufferOES( mObj->mTarget );
-#else
 	GLboolean result = glUnmapBuffer( mObj->mTarget );
-#endif
 	if( result != GL_TRUE )
 		throw VboFailedUnmapExc();
 }
@@ -621,27 +627,15 @@ void VboMesh::bindVao() const
 		// delete old vao
 		if (mObj->mVaoExists)
 		{
-		#if defined( CINDER_GLES )
-			glDeleteVertexArraysOES( 1, &mObj->mVaoId );
-		#else
-			glDeleteVertexArraysAPPLE( 1, &mObj->mVaoId );
-		#endif
+			glDeleteVertexArrays( 1, &mObj->mVaoId );
 		}
 		
 		// make new vao
-	#if defined( CINDER_GLES )
-		glGenVertexArraysOES( 1, &mObj->mVaoId );
-	#else
-		glGenVertexArraysAPPLE( 1, &mObj->mVaoId );
-	#endif
+		glGenVertexArrays( 1, &mObj->mVaoId );
 
 		// bind vao
-	#if defined( CINDER_GLES )
-		glBindVertexArrayOES( mObj->mVaoId );
-	#else
-		glBindVertexArrayAPPLE( mObj->mVaoId );
-	#endif
-		
+		glBindVertexArray( mObj->mVaoId );
+
 		// capture state
 		bindAllData() ;
 		enableClientStates() ;
@@ -658,20 +652,12 @@ void VboMesh::bindVao() const
 
 	
 	// bind
-#if defined( CINDER_GLES )
-	glBindVertexArrayOES( mObj->mVaoId );
-#else
-	glBindVertexArrayAPPLE( mObj->mVaoId );
-#endif
+	glBindVertexArray( mObj->mVaoId );
 }
 
 void VboMesh::unbindVao() const
 {
-#if defined( CINDER_GLES )
-	glBindVertexArrayOES(0) ;
-#else
-	glBindVertexArrayAPPLE(0) ;
-#endif
+	glBindVertexArray(0) ;
 }
 
 void VboMesh::setCustomStaticLocation( size_t internalIndex, GLuint location )
@@ -695,11 +681,7 @@ void VboMesh::setCustomDynamicLocation( size_t internalIndex, GLuint location )
 VboMesh::Obj::~Obj()
 {
 	if (mVaoExists)
-#if defined( CINDER_GLES )
-		glDeleteVertexArraysOES( 1, &mVaoId );
-#else
-		glDeleteVertexArraysAPPLE( 1, &mVaoId );
-#endif
+		glDeleteVertexArrays( 1, &mVaoId );
 }
 
 void VboMesh::bufferIndices( const std::vector<uint32_t> &indices )
@@ -936,15 +918,9 @@ VboMesh::VertexIter::Obj::Obj( const VboMesh &mesh )
 	// Buffer NULL data to tell the driver we don't care about what's in there (See NVIDIA's "Using Vertex Buffer Objects" whitepaper)
 	mVbo.bind();
 	//mVbo.bufferData( mesh.mObj->mDynamicStride * mesh.mObj->mNumVertices, NULL, GL_STREAM_DRAW );
-#ifdef CINDER_GLES
 	glBufferData( GL_ARRAY_BUFFER, mesh.mObj->mDynamicStride * mesh.mObj->mNumVertices, NULL, GL_STREAM_DRAW );
 	//mData = mVbo.map( GL_WRITE_ONLY );
-	mData = reinterpret_cast<uint8_t*>( glMapBufferOES( GL_ARRAY_BUFFER, GL_WRITE_ONLY_OES ) );
-#else
-	glBufferDataARB( GL_ARRAY_BUFFER, mesh.mObj->mDynamicStride * mesh.mObj->mNumVertices, NULL, GL_STREAM_DRAW );
-	//mData = mVbo.map( GL_WRITE_ONLY );
 	mData = reinterpret_cast<uint8_t*>( glMapBuffer( GL_ARRAY_BUFFER, GL_WRITE_ONLY ) );
-#endif
 	mDataEnd = mData + mesh.mObj->mDynamicStride * mesh.getNumVertices();
 }
 
