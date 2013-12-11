@@ -78,6 +78,35 @@ class Vbo {
 	//@}  
 };
 
+class Vao {
+ public:
+	//! If you want a null Vao pass in false
+	Vao( bool instantiateIt=true ) ;
+	
+	void		bind();
+	void		unbind();
+
+	GLuint		getId() const { return mObj->mId; }
+	
+ protected:
+	struct Obj {
+		Obj();
+		~Obj();
+
+		GLuint			mId;
+	};
+	
+	std::shared_ptr<Obj>	mObj;
+
+  public:
+	//@{
+	//! Emulates shared_ptr-like behavior
+	typedef std::shared_ptr<Obj> Vao::*unspecified_bool_type;
+	operator unspecified_bool_type() const { return ( mObj.get() == 0 ) ? 0 : &Vao::mObj; }
+	void reset() { mObj.reset(); }
+	//@}  
+};
+
 class VboMesh;
 typedef std::shared_ptr<VboMesh>	VboMeshRef;
 
@@ -174,8 +203,6 @@ class VboMesh {
 	
   protected:
 	struct Obj {
-		~Obj() ; // for cleaning up vao
-		
 		size_t			mNumIndices, mNumVertices;	
 
 		Vbo				mBuffers[TOTAL_BUFFERS];
@@ -189,9 +216,8 @@ class VboMesh {
 		std::vector<GLint>		mCustomStaticLocations;
 		std::vector<GLint>		mCustomDynamicLocations;
 		
-		mutable GLuint			mVaoId;
+		mutable Vao				mVao = Vao(false) ; // don't instantiate; do it on demand.
 		mutable bool			mVaoCached = false;
-		mutable bool			mVaoExists = false;
 	};
 
   public:

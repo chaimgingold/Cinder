@@ -55,6 +55,8 @@ int		VboMesh::Layout::sCustomAttrSizes[TOTAL_CUSTOM_ATTR_TYPES] = { 4, 8, 12, 16
 GLint	VboMesh::Layout::sCustomAttrNumComponents[TOTAL_CUSTOM_ATTR_TYPES] = { 1, 2, 3, 4 };
 GLenum	VboMesh::Layout::sCustomAttrTypes[TOTAL_CUSTOM_ATTR_TYPES] = { GL_FLOAT, GL_FLOAT, GL_FLOAT, GL_FLOAT };
 
+#pragma mark -
+
 Vbo::Obj::Obj( GLenum aTarget )
 	: mTarget( aTarget )
 {
@@ -106,6 +108,40 @@ void Vbo::unmap()
 	if( result != GL_TRUE )
 		throw VboFailedUnmapExc();
 }
+
+#pragma mark -
+
+Vao::Vao( bool instantiateIt )
+{
+	if (instantiateIt)
+	{
+		mObj = shared_ptr<Vao::Obj>( new Obj() );
+	}
+}
+
+Vao::Obj::Obj()
+{
+	glGenVertexArrays( 1, &mId );
+}
+
+Vao::Obj::~Obj()
+{
+	glDeleteVertexArrays( 1, &mId );
+}
+
+void
+Vao::bind()
+{
+	glBindVertexArray( mObj->mId );
+}
+
+void
+Vao::unbind()
+{
+	glBindVertexArray(0) ;
+}
+
+#pragma mark -
 
 bool VboMesh::Layout::hasStaticTexCoords() const
 {
@@ -624,40 +660,32 @@ void VboMesh::bindVao() const
 	// create?
 	if ( ! mObj->mVaoCached )
 	{
-		// delete old vao
-		if (mObj->mVaoExists)
-		{
-			glDeleteVertexArrays( 1, &mObj->mVaoId );
-		}
-		
-		// make new vao
-		glGenVertexArrays( 1, &mObj->mVaoId );
+		// make new vao (could replace old one).
+		mObj->mVao = Vao() ;
 
 		// bind vao
-		glBindVertexArray( mObj->mVaoId );
+		mObj->mVao.bind() ;
 
 		// capture state
 		bindAllData() ;
 		enableClientStates() ;
 		
 		// unbind
-		unbindVao() ;
+		mObj->mVao.unbind() ;
 		unbindBuffers() ;
 		disableClientStates() ;
 		
 		// set flags
 		mObj->mVaoCached = true ;
-		mObj->mVaoExists = true ;
 	}	
-
 	
 	// bind
-	glBindVertexArray( mObj->mVaoId );
+	mObj->mVao.bind();
 }
 
 void VboMesh::unbindVao() const
 {
-	glBindVertexArray(0) ;
+	mObj->mVao.unbind();
 }
 
 void VboMesh::setCustomStaticLocation( size_t internalIndex, GLuint location )
@@ -676,12 +704,6 @@ void VboMesh::setCustomDynamicLocation( size_t internalIndex, GLuint location )
 		mObj->mCustomDynamicLocations[internalIndex] = location;
 		mObj->mVaoCached = false ;
 	}
-}
-
-VboMesh::Obj::~Obj()
-{
-	if (mVaoExists)
-		glDeleteVertexArrays( 1, &mVaoId );
 }
 
 void VboMesh::bufferIndices( const std::vector<uint32_t> &indices )
