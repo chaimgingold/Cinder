@@ -73,12 +73,12 @@ Vbo::Vbo( GLenum aTarget )
 	mObj = shared_ptr<Vbo::Obj>( new Obj( aTarget ) );
 }
 
-void Vbo::bind()
+void Vbo::bind() const
 {
 	glBindBuffer( mObj->mTarget, mObj->mId );
 }
 
-void Vbo::unbind()
+void Vbo::unbind() const
 {
 	glBindBuffer( mObj->mTarget, 0 );
 }
@@ -130,13 +130,13 @@ Vao::Obj::~Obj()
 }
 
 void
-Vao::bind()
+Vao::bind() const
 {
 	glBindVertexArray( mObj->mId );
 }
 
 void
-Vao::unbind()
+Vao::unbind() const
 {
 	glBindVertexArray(0) ;
 }
@@ -661,7 +661,7 @@ void VboMesh::bindVao() const
 	if ( ! mObj->mVaoCached )
 	{
 		// make new vao (could replace old one).
-		mObj->mVao = Vao() ;
+		mObj->mVao = Vao(true) ;
 
 		// bind vao
 		mObj->mVao.bind() ;

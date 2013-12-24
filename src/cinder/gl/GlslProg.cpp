@@ -231,6 +231,14 @@ void GlslProg::uniform( const std::string &name, const ColorA &data )
 	GLint loc = getUniformLocation( name );
 	glUniform4f( loc, data.r, data.g, data.b, data.a );
 }
+/*
+void GlslProg::uniform( GLint, const Color8U &data )
+{
+}
+
+void GlslProg::uniform( GLint, const ColorA8U &data )
+{
+}*/
 
 void GlslProg::uniform( const std::string &name, const float *data, int count )
 {

@@ -35,8 +35,8 @@ class Vbo {
 	Vbo() {}
 	Vbo( GLenum aTarget );
 	
-	void		bind();
-	void		unbind();
+	void		bind() const;
+	void		unbind() const;
 	
 	void		bufferData( size_t size, const void *data, GLenum usage );
 	void		bufferSubData( ptrdiff_t offset, size_t size, const void *data );
@@ -80,11 +80,11 @@ class Vbo {
 
 class Vao {
  public:
-	//! If you want a null Vao pass in false
-	Vao( bool instantiateIt=true ) ;
+
+	Vao( bool instantiateIt=false ) ;
 	
-	void		bind();
-	void		unbind();
+	void		bind() const;
+	void		unbind() const;
 
 	GLuint		getId() const { return mObj->mId; }
 	
@@ -216,8 +216,8 @@ class VboMesh {
 		std::vector<GLint>		mCustomStaticLocations;
 		std::vector<GLint>		mCustomDynamicLocations;
 		
-		mutable Vao				mVao = Vao(false) ; // don't instantiate; do it on demand.
-		mutable bool			mVaoCached = false;
+		mutable Vao		mVao ;
+		mutable bool	mVaoCached = false;
 	};
 
   public:

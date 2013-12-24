@@ -1353,6 +1353,7 @@ static void bindVbo( const VboMesh &vbo )
 		vbo.bindVao() ;
 	else
 	{
+	
 		vbo.enableClientStates();
 		vbo.bindAllData();
 	}

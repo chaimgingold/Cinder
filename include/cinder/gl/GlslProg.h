@@ -87,6 +87,8 @@ class GlslProg {
 	void	uniform( const std::string &name, const Vec4f &data );
 	void	uniform( const std::string &name, const Color &data );
 	void	uniform( const std::string &name, const ColorA &data );
+//	void	uniform( const std::string &name, const Color8U &data );
+//	void	uniform( const std::string &name, const ColorA8U &data );
 	void	uniform( const std::string &name, const Matrix22f &data, bool transpose = false );
 	void	uniform( const std::string &name, const Matrix33f &data, bool transpose = false );
 	void	uniform( const std::string &name, const Matrix44f &data, bool transpose = false );
@@ -108,6 +110,8 @@ class GlslProg {
 	void	uniform( GLint, const Vec4f &data );
 	void	uniform( GLint, const Color &data );
 	void	uniform( GLint, const ColorA &data );
+//	void	uniform( GLint, const Color8U &data );
+//	void	uniform( GLint, const ColorA8U &data );
 	void	uniform( GLint, const Matrix22f &data, bool transpose = false );
 	void	uniform( GLint, const Matrix33f &data, bool transpose = false );
 	void	uniform( GLint, const Matrix44f &data, bool transpose = false );
