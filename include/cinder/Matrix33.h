@@ -177,6 +177,16 @@ public:
 	// post-multiplies column vector [rhs.x rhs.y rhs.z]
 	Vec3<T>				transformVec( const Vec3<T> &v ) const { return postMultiply( v ); }
 
+	// returns the translation values from the last column
+	Vec3<T>				getTranslate() const { return Vec3<T>( m02, m12, m22 ); }
+	// sets the translation values in the last column
+	void				setTranslate( const Vec2<T>& v ) { m02 = v.x; m12 = v.y; }
+	void				setTranslate( const Vec3<T>& v ) { setTranslate( v.xy() ); }
+
+	// multiplies the current matrix by a translation matrix derived from tr
+	void				translate( const Vec2<T> &tr ) { *this *= createTranslation( tr ); }
+	void				translate( const Vec3<T> &tr ) { *this *= createTranslation( tr ); }
+
 	// rotate by radians on axis (conceptually, rotate is before 'this')
 	template <template <typename> class VecT>
 	void				rotate( const VecT<T> &axis, T radians ) { *this *= Matrix33<T>::createRotation( axis, radians ); }
@@ -187,6 +197,11 @@ public:
 	template <template <typename> class VecT> 
 	void				rotate( const VecT<T> &from, const VecT<T> &to, const VecT<T> &worldUp ) { *this *= Matrix33<T>::createRotation( from, to, worldUp ); }
 
+	// multiplies the current matrix by the scale matrix derived from supplies parameters
+	void				scale( T s ) { Matrix33 op = createScale( s ); Matrix33 mat = *this; *this = op*mat; }
+	void				scale( const Vec2<T> &v ) { *this *= createScale( v ); }
+	void				scale( const Vec3<T> &v ) { *this *= createScale( v ); }
+
 	// transposes rotation sub-matrix and inverts translation
 	Matrix33<T>			invertTransform() const;
 
@@ -196,6 +211,10 @@ public:
 	static Matrix33<T>  one() { return Matrix33( (T)1 ); }
 	// returns 0 filled matrix
 	static Matrix33<T>  zero() { return Matrix33( (T)0 ); }
+
+	// creates translation matrix
+	static Matrix33<T>	createTranslation( const Vec2<T> &v, T w = 1 );
+	static Matrix33<T>	createTranslation( const Vec3<T> &v ) { return createTranslation( v.xy(), v.z );}
 
 	// creates rotation matrix
 	static Matrix33<T>	createRotation( const Vec3<T> &axis, T radians );
@@ -780,6 +799,17 @@ Matrix33<T> Matrix33<T>::invertTransform() const
 			ret.at( j, i ) = at( i, j );
 		}
 	}
+
+	return ret;
+}
+
+template<typename T>
+Matrix33<T> Matrix33<T>::createTranslation( const Vec2<T> &v, T w )
+{
+	Matrix33<T> ret;
+	ret.m[6] = v.x;
+	ret.m[7] = v.y;
+	ret.m[8] = w;
 
 	return ret;
 }
