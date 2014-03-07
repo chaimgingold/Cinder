@@ -268,13 +268,22 @@ void Texture::init( const unsigned char *data, int unpackRowLength, GLenum dataF
 	}
 	
 	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
-#if ! defined( CINDER_GLES )
+
+#if defined( CINDER_GLES )
+
+	if( data && mObj->mInternalFormat != dataFormat )
+		throw TextureDataExc("GL ES internal texture format must match data for glTexImage2D") ;
+	// on ES texture internal format and data format must match!
+
+	// TODO: pick appropriate type if not 8-bit components for es extensions.
+	
+	glTexImage2D( mObj->mTarget, 0, mObj->mInternalFormat, mObj->mWidth, mObj->mHeight, 0, mObj->mInternalFormat, type, data );	
+#else
 	glPixelStorei( GL_UNPACK_ROW_LENGTH, unpackRowLength );
-#endif
 	glTexImage2D( mObj->mTarget, 0, mObj->mInternalFormat, mObj->mWidth, mObj->mHeight, 0, dataFormat, type, data );
-#if ! defined( CINDER_GLES )
 	glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 );
 #endif
+
 #if defined( CINDER_GLES2 )
 	if( format.mMipmapping )
 		glGenerateMipmap( mObj->mTarget ); // comes after glTexImage2D in es2
