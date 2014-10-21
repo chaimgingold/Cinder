@@ -170,6 +170,32 @@ void Display::enumerateDisplays()
 		sDisplays.push_back( newDisplay );
 	}
 
+// https://github.com/cinder/Cinder/commit/8e9a1f08d1cc9879a1aa394629d6e67f8013647d
+// re: iOS 8 crash https://forum.libcinder.org/topic/ios-8-crash
+// 
+// <TEMPORARY>
+// This is a workaround for a beta of iOS 8 SDK, which appears to return an empty array for screens
+	if( screenCount == 0 ) {
+		UIScreen *screen = [UIScreen mainScreen];
+		[screen retain];
+		CGRect frame = [screen bounds];
+
+		DisplayRef newDisplay = DisplayRef( new Display );
+		newDisplay->mArea = Area( frame.origin.x, frame.origin.y, frame.origin.x + frame.size.width, frame.origin.y + frame.size.height );
+		newDisplay->mUiScreen = screen;
+		newDisplay->mBitsPerPixel = 24;
+		newDisplay->mContentScale = screen.scale;
+		
+		NSArray *resolutions = [screen availableModes];
+		for( int i = 0; i < [resolutions count]; ++i ) {
+			::UIScreenMode *mode = [resolutions objectAtIndex:i];
+			newDisplay->mSupportedResolutions.push_back( Vec2i( (int32_t)mode.size.width, (int32_t)mode.size.height ) );
+		}
+		
+		sDisplays.push_back( newDisplay );
+	}
+// </TEMPORARY>
+
 	sDisplaysInitialized = true;
 	[pool release];	
 }
