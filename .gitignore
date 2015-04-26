@@ -5,7 +5,7 @@
 *.user
 *.xcworkspace/
 xcuserdata/
-.DS_Store
+*.DS_Store
 
 build/
 lib/libcinder*.a
