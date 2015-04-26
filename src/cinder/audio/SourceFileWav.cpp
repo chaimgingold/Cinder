@@ -86,13 +86,13 @@ uint64_t LoaderSourceFileWav::getSampleOffset() const
 void LoaderSourceFileWav::setSampleOffset( uint64_t anOffset )
 {
 	mSampleOffset = anOffset;
-	mStream->seekAbsolute( mSource->mDataStart + ( anOffset * mSource->mBlockAlign ) );
+	mStream->seekAbsolute( mSource->mDataStart + off_t( anOffset * mSource->mBlockAlign ) );
 }
 
 void LoaderSourceFileWav::loadData( BufferList *ioData )
 {	
 	if( mSampleOffset + ioData->mBuffers[0].mSampleCount > mSource->mSampleCount ) {
-		ioData->mBuffers[0].mSampleCount = mSource->mSampleCount - mSampleOffset;
+        ioData->mBuffers[0].mSampleCount = uint32_t(mSource->mSampleCount - mSampleOffset);
 	}
 	
 	uint32_t dataSize = ioData->mBuffers[0].mSampleCount * mSource->mBlockAlign;

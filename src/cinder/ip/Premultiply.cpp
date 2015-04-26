@@ -25,6 +25,8 @@
 
 #include <boost/preprocessor/seq.hpp>
 
+#include <algorithm>
+
 namespace cinder { namespace ip {
 
 // this is a candidate for sse2

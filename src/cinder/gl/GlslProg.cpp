@@ -300,7 +300,7 @@ void GlslProg::uniform( const std::string &name, const Matrix44f *data, int coun
 	glUniformMatrix4fv( loc, count, ( transpose ) ? GL_TRUE : GL_FALSE, data->m );
 }
 
-#pragma mark -
+//#pragma mark -
 
 void GlslProg::uniform( GLint loc, int data )
 {
@@ -402,7 +402,7 @@ void GlslProg::uniform( GLint loc, const Matrix44f *data, int count, bool transp
 	glUniformMatrix4fv( loc, count, ( transpose ) ? GL_TRUE : GL_FALSE, data->m );
 }
 
-#pragma mark -
+//#pragma mark -
 
 GLint GlslProg::getUniformLocation( const std::string &name )
 {

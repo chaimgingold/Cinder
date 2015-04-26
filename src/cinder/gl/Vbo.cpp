@@ -55,7 +55,7 @@ int		VboMesh::Layout::sCustomAttrSizes[TOTAL_CUSTOM_ATTR_TYPES] = { 4, 8, 12, 16
 GLint	VboMesh::Layout::sCustomAttrNumComponents[TOTAL_CUSTOM_ATTR_TYPES] = { 1, 2, 3, 4 };
 GLenum	VboMesh::Layout::sCustomAttrTypes[TOTAL_CUSTOM_ATTR_TYPES] = { GL_FLOAT, GL_FLOAT, GL_FLOAT, GL_FLOAT };
 
-#pragma mark -
+//#pragma mark -
 
 Vbo::Obj::Obj( GLenum aTarget )
 	: mTarget( aTarget )
@@ -109,7 +109,7 @@ void Vbo::unmap()
 		throw VboFailedUnmapExc();
 }
 
-#pragma mark -
+//#pragma mark -
 
 Vao::Vao( bool instantiateIt )
 {
@@ -141,7 +141,7 @@ Vao::unbind() const
 	glBindVertexArray(0) ;
 }
 
-#pragma mark -
+//#pragma mark -
 
 bool VboMesh::Layout::hasStaticTexCoords() const
 {
