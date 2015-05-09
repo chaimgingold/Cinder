@@ -86,7 +86,10 @@ typedef double                          double_t;
 typedef long double                     float_t;
 typedef long double                     double_t;
 #elif TARGET_CPU_X86
-typedef double                          float_t;
+// PC build fix: this seems like it could be very bad, in math.h float_t is float, 
+// not double.. hopefully none of the libs have been compiled with it == double?
+//typedef double                          float_t;
+typedef float                           float_t;
 typedef double                          double_t;
 #elif TARGET_CPU_MIPS
 typedef double                          float_t;
@@ -118,6 +121,8 @@ typedef double                          double_t;
     #define   INFINITY                __inf()
     #define   NAN                     nan("255")
   #endif
+#elif WIN32
+# include <math.h>
 #else
   #define     NAN                     sqrt(-1)
 #endif
