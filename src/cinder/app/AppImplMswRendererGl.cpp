@@ -236,6 +236,27 @@ bool AppImplMswRendererGl::initializeInternal( HWND wnd, HDC dc, HGLRC sharedRC 
 		return false;								
 	}
 
+    // Code to create a debug context, so we can use ARB_debug_output
+#if _DEBUG
+
+    HGLRC tmpRc = mRC;
+    int attribList[] = {
+        WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_DEBUG_BIT_ARB,
+        0,0,
+    };
+
+	if( ! ( mRC = ::wglCreateContextAttribsARB( dc, nullptr, attribList ) ) )	{			// Are We Able To Get A Rendering Context?
+		return false;								
+	}
+
+	if( ! ::wglMakeCurrent( dc, mRC ) ){					// Try To Activate The Rendering Context
+		return false;								
+	}
+
+    wglDeleteContext(tmpRc);
+
+#endif
+
 	if( ( ! sMultisampleSupported ) && ( mRenderer->getAntiAliasing() > RendererGl::AA_NONE ) )  {
 		int level = initMultisample( pfd, mRenderer->getAntiAliasing(), dc );
 		mRenderer->setAntiAliasing( RendererGl::AA_NONE + level );
