@@ -453,29 +453,59 @@ Rectf Font::getGlyphBoundingBox( Glyph glyphIndex ) const
 
 #endif
 
-Font::Obj::Obj( const string &aName, float aSize )
-	: mName( aName ), mSize( aSize )
+Font::Obj::Obj(const string &aName, float aSize)
+    : mName(aName), mSize(aSize)
 #if defined( CINDER_MSW )
-	, mHfont( 0 )
+    , mHfont(0)
 #endif
 {
 #if defined( CINDER_COCOA )
-	CFStringRef cfName = cocoa::createCfString( mName.c_str() );
-	mCGFont = ::CGFontCreateWithFontName( cfName );
-	CFRelease( cfName );
-	if( mCGFont == 0 )
-		throw FontInvalidNameExc( aName );
-	mCTFont = ::CTFontCreateWithGraphicsFont( mCGFont, (CGFloat)mSize, 0, 0 );
-	
-	::CFStringRef fullName = ::CGFontCopyFullName( mCGFont );
-	string result = cocoa::convertCfString( fullName );
-	::CFRelease( fullName );
+    CFStringRef cfName = cocoa::createCfString( mName.c_str() );
+    mCGFont = ::CGFontCreateWithFontName( cfName );
+    CFRelease( cfName );
+    if( mCGFont == 0 )
+        throw FontInvalidNameExc( aName );
+    mCTFont = ::CTFontCreateWithGraphicsFont( mCGFont, (CGFloat)mSize, 0, 0 );
+
+    ::CFStringRef fullName = ::CGFontCopyFullName( mCGFont );
+    string result = cocoa::convertCfString( fullName );
+    ::CFRelease( fullName );
 #else
-	FontManager::instance(); // force GDI+ init
+    FontManager::instance(); // force GDI+ init
+
+    std::string name = aName;
+
+    // Hack for getting bold / italic, etc.
+    int fontWeight = FW_DONTCARE;
+    DWORD bItalic = FALSE;
+    while (true)
+    {
+        const char *lastSpace = strrchr(name.c_str(), ' ');
+        if (lastSpace == nullptr)
+        {
+            break;
+        }
+
+        if (strcmp(lastSpace+1, "Bold") == 0)
+        {
+            name.erase(lastSpace - name.c_str(), string::npos);
+            fontWeight = FW_BOLD;
+        }
+        else if (strcmp(lastSpace+1, "Italic") == 0)
+        {
+            name.erase(lastSpace - name.c_str(), string::npos);
+            bItalic = TRUE;
+        }
+        else
+        {
+            break;
+        }
+    }
+
 	assert( sizeof(wchar_t) == 2 );
-    wstring faceName = toUtf16( mName );
+    wstring faceName = toUtf16( name );
     
-	mHfont = ::CreateFont( -mSize * 72 / 96, 0, 0, 0, FW_DONTCARE, false, false, false,
+	mHfont = ::CreateFont( -mSize * 72 / 96, 0, 0, 0, fontWeight, bItalic, false, false,
 						DEFAULT_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
 						ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
 						faceName.c_str() );
