@@ -647,9 +647,6 @@
     <ClInclude Include="..\include\cinder\app\AppBasic.h">
       <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\cinder\app\AppDialog.h">
-      <Filter>Header Files\app</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\cinder\app\AppImplMsw.h">
       <Filter>Header Files\app</Filter>
     </ClInclude>
@@ -777,9 +774,6 @@
       <Filter>Header Files\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\include\cinder\app\Event.h">
-      <Filter>Header Files\app</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\cinder\app\ResizeEvent.h">
       <Filter>Header Files\app</Filter>
     </ClInclude>
     <ClInclude Include="..\include\cinder\Function.h">
