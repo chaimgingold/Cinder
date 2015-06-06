@@ -23,6 +23,9 @@
 #include "cinder/gl/gl.h"
 #include "cinder/gl/GlslProg.h"
 
+#include <ios>
+#include <sstream>
+
 using namespace std;
 
 // Macros for defining implementation-specific shader types
@@ -122,12 +125,55 @@ void GlslProg::loadShader( const char *shaderSource, GLint shaderType )
 	glShaderSource( handle, 1, reinterpret_cast<const GLchar**>( &shaderSource ), NULL );
 	glCompileShader( handle );
 	
+    GLboolean forceCheckLog = false;
+#if _DEBUG
+    forceCheckLog = !getShaderLog((GLuint)handle).empty();
+#endif
+
 	GLint status;
 	glGetShaderiv( (GLuint) handle, GL_COMPILE_STATUS, &status );
-	if( status != GL_TRUE ) {
-		std::string log = getShaderLog( (GLuint)handle );
-		throw GlslProgCompileExc( log, shaderType );
-	}
+	if( status != GL_TRUE || forceCheckLog )
+    {
+        std::string log = getShaderLog((GLuint)handle);
+
+        // Split the input source into lines
+        std::vector<std::string> srcLines;
+        for (const char* p = shaderSource; p != nullptr; /**/)
+        {
+            const char *next = strchr(p, '\n');
+            if (next == nullptr)
+            {
+                srcLines.push_back(p);
+                break;
+            }
+            else
+            {
+                srcLines.emplace_back(p, next-p);
+                p = next + 1;
+            }
+        }
+
+        fprintf(stderr, "GLSL compile err:\n");
+
+        // Split up all the lines
+        std::stringstream sstr(log);
+        for (std::string err; std::getline(sstr, err); /**/)
+        {
+            fprintf(stderr, " %s\n", err.c_str());
+
+            // See if we can get the line number
+            unsigned lineNumber;
+            if (sscanf(err.c_str(), "0(%i) ", &lineNumber) == 1 && lineNumber <= srcLines.size())
+            {
+                fprintf(stderr, "   %s\n", srcLines[lineNumber-1].c_str());
+            }
+        }
+
+        if (status != GL_TRUE)
+        {
+            throw GlslProgCompileExc(log, shaderType);
+        }
+    }
 	glAttachShader( mObj->mHandle, handle );
 }
 
