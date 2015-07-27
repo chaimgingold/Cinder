@@ -145,7 +145,7 @@
         if( ! options->isSecondaryDisplayBlankingEnabled() )
             [dict setObject:[NSNumber numberWithBool:NO] forKey:NSFullScreenModeAllScreens];
 		if( ! options->isExclusive() )
-			[dict setObject:[NSNumber numberWithUnsignedInteger:( NSApplicationPresentationHideMenuBar | NSApplicationPresentationHideDock )] forKey:NSFullScreenModeApplicationPresentationOptions];
+			[dict setObject:[NSNumber numberWithUnsignedInteger:( NSApplicationPresentationAutoHideMenuBar | NSApplicationPresentationAutoHideDock )] forKey:NSFullScreenModeApplicationPresentationOptions];
 
         NSScreen *screen = ( options->getDisplay() ? options->getDisplay()->getNsScreen() : [[self window] screen] );
         [self enterFullScreenMode:screen withOptions:dict];
