@@ -2577,14 +2577,11 @@
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
-					../lib/ios/libboost_thread.a,
-					../lib/ios/libboost_date_time.a,
-					../lib/ios/libboost_system.a,
 					../lib/ios/libboost_filesystem.a,
-					../lib/ios/libboost_regex.a,
+					../lib/ios/libboost_system.a,
 				);
 				OTHER_LIBTOOLFLAGS = "";
-				PRELINK_LIBS = "../lib/ios/libboost_filesystem.a ../lib/ios/libboost_system.a ../lib/ios/libboost_date_time.a";
+				PRELINK_LIBS = "../lib/ios/libboost_filesystem.a ../lib/ios/libboost_system.a";
 				PRODUCT_NAME = "cinder-iphone_d";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2614,14 +2611,11 @@
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
-					../lib/ios/libboost_thread.a,
-					../lib/ios/libboost_date_time.a,
-					../lib/ios/libboost_system.a,
 					../lib/ios/libboost_filesystem.a,
-					../lib/ios/libboost_regex.a,
+					../lib/ios/libboost_system.a,
 				);
 				OTHER_LIBTOOLFLAGS = "";
-				PRELINK_LIBS = "../lib/ios/libboost_filesystem.a ../lib/ios/libboost_system.a ../lib/ios/libboost_date_time.a";
+				PRELINK_LIBS = "../lib/ios/libboost_filesystem.a ../lib/ios/libboost_system.a";
 				PRODUCT_NAME = "cinder-iphone";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2647,12 +2641,10 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
-					"../lib/ios-sim/libboost_thread.a",
-					"../lib/ios-sim/libboost_date_time.a",
 					"../lib/ios-sim/libboost_system.a",
 					"../lib/ios-sim/libboost_filesystem.a",
-					"../lib/ios-sim/libboost_regex.a",
 				);
+				PRELINK_LIBS = "../lib/ios-sim/libboost_system.a ../lib/ios-sim/libboost_filesystem.a";
 				PRODUCT_NAME = "cinder-iphone-sim_d";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphonesimulator;
@@ -2681,12 +2673,10 @@
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
-					"../lib/ios-sim/libboost_thread.a",
-					"../lib/ios-sim/libboost_date_time.a",
 					"../lib/ios-sim/libboost_system.a",
 					"../lib/ios-sim/libboost_filesystem.a",
-					"../lib/ios-sim/libboost_regex.a",
 				);
+				PRELINK_LIBS = "../lib/ios-sim/libboost_system.a ../lib/ios-sim/libboost_filesystem.a";
 				PRODUCT_NAME = "cinder-iphone-sim";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphonesimulator;
@@ -2719,14 +2709,11 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
-					../lib/macosx/libboost_thread.a,
-					../lib/macosx/libboost_date_time.a,
 					../lib/macosx/libboost_filesystem.a,
-					../lib/macosx/libboost_system.a,
-					../lib/macosx/libboost_regex.a,
 					../lib/macosx/libz.a,
+					../lib/macosx/libboost_system.a,
 				);
-				PRELINK_LIBS = "../lib/macosx/libboost_filesystem.a ../lib/macosx/libboost_system.a ../lib/macosx/libz.a ../lib/macosx/libboost_date_time.a";
+				PRELINK_LIBS = "../lib/macosx/libboost_filesystem.a ../lib/macosx/libz.a ../lib/macosx/libboost_system.a";
 				PRODUCT_NAME = cinder_d;
 				SDKROOT = macosx;
 				VALID_ARCHS = "i386 x86_64";
@@ -2761,14 +2748,11 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
-					../lib/macosx/libboost_thread.a,
-					../lib/macosx/libboost_date_time.a,
 					../lib/macosx/libboost_filesystem.a,
-					../lib/macosx/libboost_system.a,
-					../lib/macosx/libboost_regex.a,
 					../lib/macosx/libz.a,
+					../lib/macosx/libboost_system.a,
 				);
-				PRELINK_LIBS = "../lib/macosx/libboost_filesystem.a ../lib/macosx/libboost_system.a ../lib/macosx/libz.a ../lib/macosx/libboost_date_time.a";
+				PRELINK_LIBS = "../lib/macosx/libboost_filesystem.a ../lib/macosx/libz.a ../lib/macosx/libboost_system.a";
 				PRODUCT_NAME = cinder;
 				SDKROOT = macosx;
 				VALID_ARCHS = "i386 x86_64";
