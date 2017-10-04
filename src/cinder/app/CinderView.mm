@@ -417,14 +417,17 @@
 
 - (void)scrollWheel:(NSEvent*)theEvent
 {
-	float wheelDelta		= [theEvent deltaX] + [theEvent deltaY];
-	NSPoint curPoint		= [theEvent locationInWindow];
-	int x					= (curPoint.x - [self frame].origin.x);
-	int y					= ([self frame].size.height - ( curPoint.y - [self frame].origin.y ));
-	int mods				= [self prepMouseEventModifiers:theEvent];
-	
-	cinder::app::MouseEvent mouseEvent( [mDelegate getWindowRef], 0, x, y, mods, wheelDelta / 4.0f, [theEvent modifierFlags] );
-	[mDelegate mouseWheel:&mouseEvent];
+	if ( theEvent.subtype == NSMouseEventSubtype ) // ignore touch based scroll events
+	{
+		float wheelDelta		= [theEvent deltaX] + [theEvent deltaY];
+		NSPoint curPoint		= [theEvent locationInWindow];
+		int x					= (curPoint.x - [self frame].origin.x);
+		int y					= ([self frame].size.height - ( curPoint.y - [self frame].origin.y ));
+		int mods				= [self prepMouseEventModifiers:theEvent];
+		
+		cinder::app::MouseEvent mouseEvent( [mDelegate getWindowRef], 0, x, y, mods, wheelDelta / 4.0f, [theEvent modifierFlags] );
+		[mDelegate mouseWheel:&mouseEvent];
+	}
 }
 
 /*- (void)setup:(cinder::app::App *)aApp
